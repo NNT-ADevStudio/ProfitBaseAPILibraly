@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId />
+    <Title>ProfitBaseAPI</Title>
+    <Authors>AlRlR</Authors>
+    <Company>NNT ADevStudio</Company>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <Version>1.1.2</Version>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LivingComplexLib" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>
