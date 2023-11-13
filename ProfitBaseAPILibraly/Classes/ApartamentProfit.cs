@@ -11,5 +11,9 @@ namespace ProfitBaseAPILibraly.Classes
         public int CountRoom { get; set; }
 
         public double RenovationPrice { get; set; }
+
+        public string Queue { get; set; }
+
+        public string FinishType { get; set; }
     }
 }

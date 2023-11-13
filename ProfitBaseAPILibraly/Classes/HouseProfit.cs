@@ -1,7 +1,4 @@
 ﻿using LivingComplexLib.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProfitBaseAPILibraly.Classes
 {
@@ -10,8 +7,6 @@ namespace ProfitBaseAPILibraly.Classes
         public int Id { get; }
 
         public HouseProfit(int id, string title, ProjectProfit project) : base(title, project)
-        {
-            Id = id;
-        }
+            => Id = id;
     }
 }

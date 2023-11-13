@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -17,7 +15,8 @@ namespace ProfitBaseAPILibraly.Controllers
             {
                 using (var response = await httpClient.GetAsync(url).ConfigureAwait(false))
                 {
-                    string jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string jsonString = await response.Content.
+                        ReadAsStringAsync().ConfigureAwait(false);
 
                     if (!response.IsSuccessStatusCode)
                     {

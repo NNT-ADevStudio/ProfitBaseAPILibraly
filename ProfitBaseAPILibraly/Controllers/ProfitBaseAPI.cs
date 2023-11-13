@@ -16,10 +16,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public Auth Auth { get; }
 
-        public ProfitBaseAPI(Auth auth)
-        {
-            Auth = auth;
-        }
+        public ProfitBaseAPI(Auth auth) => Auth = auth;
 
         public Uri CreateUrl(Dictionary<string, string> keyValues, string endPoint)
         {
@@ -45,7 +42,8 @@ namespace ProfitBaseAPILibraly.Controllers
                 { "isArchive", "false" }
             };
 
-            IJEnumerable<JToken> result = await ResponseController.GetResultResponse(CreateUrl(keyValues, "projects").ToString()).ConfigureAwait(false);
+            IJEnumerable<JToken> result = await ResponseController.GetResultResponse(
+                CreateUrl(keyValues, "projects").ToString()).ConfigureAwait(false);
 
             if (result == null) return null;
 
@@ -68,12 +66,15 @@ namespace ProfitBaseAPILibraly.Controllers
                 { "projectId", $"{project.Id}" }
             };
 
-            JArray result = await ResponseController.GetResultResponse(CreateUrl(keyValues, "house").ToString()).ConfigureAwait(false);
+            JArray result = await ResponseController.GetResultResponse(
+                CreateUrl(keyValues, "house").ToString()).ConfigureAwait(false);
 
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
-                items.Add(new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), Convert.ToString(item["title"], CultureInfo.CurrentCulture), project));
+                items.Add(new HouseProfit(
+                    Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
+                    Convert.ToString(item["title"], CultureInfo.CurrentCulture), project));
 
             return items;
         }
@@ -88,7 +89,8 @@ namespace ProfitBaseAPILibraly.Controllers
                 { "houseId", $"{house.Id}" }
             };
 
-            JArray result = await ResponseController.GetResultResponse(CreateUrl(keyValues, "house/get-count-floors").ToString()).ConfigureAwait(false);
+            JArray result = await ResponseController.GetResultResponse(
+                CreateUrl(keyValues, "house/get-count-floors").ToString()).ConfigureAwait(false);
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
@@ -107,16 +109,17 @@ namespace ProfitBaseAPILibraly.Controllers
 
             List<Apatrament> items = new List<Apatrament>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
-                {
-                    { "houseId", $"{((HouseProfit)floor.Section.House).Id}" },
-                    { "isArchive", $"false" },
-                    { "full", $"true" },
-                    { "minFloor", $"{floor.Number}" },
-                    { "maxFloor", $"{floor.Number}" },
-                    { "section[]", $"{floor.Section.Title}" },
-                };
+            {
+                { "houseId", $"{((HouseProfit)floor.Section.House).Id}" },
+                { "isArchive", $"false" },
+                { "full", $"true" },
+                { "minFloor", $"{floor.Number}" },
+                { "maxFloor", $"{floor.Number}" },
+                { "section[]", $"{floor.Section.Title}" },
+            };
 
-            IJEnumerable<JToken> result = await ResponseController.GetResultResponse(CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
+            JArray result = await ResponseController.GetResultResponse(
+                CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
 
             if (result == null) return items;
 
@@ -131,45 +134,80 @@ namespace ProfitBaseAPILibraly.Controllers
                     switch (Convert.ToString(field["name"], CultureInfo.CurrentCulture))
                     {
                         case "Код планировки":
-                            temp.Kod = Convert.ToString(field["value"], CultureInfo.CurrentCulture);
+                            temp.Kod = Convert.ToString(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
                             break;
+
                         case "Полная цена":
-                            temp.Price = Convert.ToDouble(field["value"], CultureInfo.CurrentCulture);
+                            temp.Price = Convert.ToDouble(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
                             break;
+
                         case "Кол-во комнат":
-                            temp.CountRoom = Convert.ToInt32(field["value"], CultureInfo.CurrentCulture);
+                            temp.CountRoom = Convert.ToInt32(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
                             break;
+
                         case "Номер помещения":
-                            temp.Number = Convert.ToString(field["value"], CultureInfo.CurrentCulture);
+                            temp.Number = Convert.ToString(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
                             break;
+
                         case "Площадь, м2":
-                            try
-                            {
-                                temp.TotalArea = Convert.ToDouble(field["value"], CultureInfo.CurrentCulture);
-                            }
-                            catch (Exception)
-                            {
-                                temp.TotalArea = 0;
-                            }
+                            if (field["value"].Type != JTokenType.Float) break;
+
+                            temp.TotalArea = Convert.ToDouble(
+                                    field["value"],
+                                    CultureInfo.CurrentCulture);
                             break;
+
                         case "Цена за ремонт":
-                            try
-                            {
-                                temp.RenovationPrice = Convert.ToDouble(field["value"], CultureInfo.CurrentCulture);
-                            }
-                            catch
-                            {
-                                temp.RenovationPrice = 0;
-                            }
+                            if (field["value"].Type != JTokenType.Float) break;
+
+                            temp.RenovationPrice = Convert.ToDouble(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
                             break;
+
                         case "Площадь лоджии":
-                            temp.SummerRoom = Convert.ToString(field["value"], CultureInfo.CurrentCulture);
+                            temp.SummerRoom = Convert.ToString(
+                                field["value"],
+                                CultureInfo.CurrentCulture);
+                            break;
+
+                        case "Очередь":
+                            if (field["value"].Type == JTokenType.Null)
+                            {
+                                temp.Queue = null;
+                                break;
+                            }
+
+                            temp.Queue = Convert.ToString(
+                                    field["value"],
+                                    CultureInfo.CurrentCulture);
+                            break;
+
+                        case "Вид отделки":
+                            if (field["value"].Type == JTokenType.Null)
+                            {
+                                temp.FinishType = null;
+                                break;
+                            }
+
+                            temp.FinishType = Convert.ToString(
+                                    field["value"],
+                                    CultureInfo.CurrentCulture);
                             break;
                     }
                 }
                 temp.Floor = floor;
                 temp.Id = Convert.ToInt32(item["id"], CultureInfo.CurrentCulture);
-                temp.Status = CastomStatuses.FirstOrDefault(p => p.Id == Convert.ToInt32(item["customStatusId"], CultureInfo.CurrentCulture));
+                temp.Status = CastomStatuses.FirstOrDefault(
+                    p => p.Id == Convert.ToInt32(item["customStatusId"], CultureInfo.CurrentCulture));
                 items.Add(temp);
             }
 
@@ -181,15 +219,16 @@ namespace ProfitBaseAPILibraly.Controllers
             ICollection<CastomStatus> collection = new List<CastomStatus>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
-                    { "crm", $"amo" },
+                { "crm", $"amo" },
             };
 
-            JArray result = await ResponseController.GetResultResponse(CreateUrl(keyValues, "custom-status/list").ToString()).ConfigureAwait(false);
+            JArray result = await ResponseController.GetResultResponse(
+                CreateUrl(keyValues, "custom-status/list").ToString()).ConfigureAwait(false);
 
             foreach (var item in result[0]["data"]["customStatuses"])
-            {
-                collection.Add(new CastomStatus(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), Convert.ToString(item["name"], CultureInfo.CurrentCulture)));
-            }
+                collection.Add(new CastomStatus(
+                    Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
+                    Convert.ToString(item["name"], CultureInfo.CurrentCulture)));
             CastomStatuses = collection;
             return collection;
         }
