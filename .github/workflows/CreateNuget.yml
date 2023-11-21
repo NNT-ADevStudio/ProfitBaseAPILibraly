@@ -22,11 +22,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --output ./output
-    - name: Pack
-      run:  dotnet pack --configuration Release --output ./output
-
     - name: NuGet push
       uses: edumserrano/nuget-push@v1.2.2
       with:
