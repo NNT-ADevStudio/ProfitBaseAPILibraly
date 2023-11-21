@@ -125,7 +125,6 @@ namespace ProfitBaseAPILibraly.Controllers
             foreach (var item in result[0]["data"])
             {
                 if (item == null) continue;
-
                 await GetInfoApartament(item).ConfigureAwait(false);
             }
 
@@ -167,7 +166,7 @@ namespace ProfitBaseAPILibraly.Controllers
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "code").GetValue(), CultureInfo.CurrentCulture);
             temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "number").GetValue(), CultureInfo.CurrentCulture);
 
-            if(CastomStatuses.Count == 0)
+            if(CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
 
             temp.Status = CastomStatuses.FirstOrDefault(

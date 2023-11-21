@@ -14,7 +14,6 @@ namespace ProfitBaseAPILibraly.Controllers
         private string ApiKey { get; }
         private string Access_token { get; set; }
         private string AppData { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
         internal string BaseUrl { get; }
 
         public string Subdomain { get; set; }
