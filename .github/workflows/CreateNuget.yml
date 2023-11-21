@@ -1,0 +1,36 @@
+name: NuGet Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --output ./output
+    - name: Pack
+      run:  dotnet pack --configuration Release --output ./output
+
+    - name: Publish to NuGet.org
+      uses: nuget/nuget-setapikey-action@v1
+      with:
+        api-key: ${{ secrets.NUGET_API_KEY }}
+        
+    - name: Publish
+      run: dotnet nuget push ./output/*.nupkg --source https://api.nuget.org/v3/index.json
+      
