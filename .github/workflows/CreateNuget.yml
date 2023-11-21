@@ -22,7 +22,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: NuGet push
-      uses: edumserrano/nuget-push@v1.2.2
+    - name: Upload NuGet package
+      uses: actions/upload-artifact@v2
       with:
-        api-key: ${{ secrets.NUGET_API_KEY }}
+        name: ProfitBaseApi
+        path: ./output/*.nupkg
