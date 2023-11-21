@@ -21,16 +21,10 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-
     - name: Build
-      run: dotnet build --configuration Release --output ./output
-    - name: Pack
-      run:  dotnet pack --configuration Release --output ./output
-
-    - name: Publish to NuGet.org    
-      uses: rollycodes/publish-nuget-private@v3.0.1
+      run: dotnet build --configuration Release --no-restore
+    - name: Publish FluentEmail.Core
+      uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: ProfitBaseAPILibraly/ProfitBaseAPILibraly.sln
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
-          
-      
+          PROJECT_FILE_PATH: ProfitBaseAPILibraly/ProfitBaseAPILibraly.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
