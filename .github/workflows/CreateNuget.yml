@@ -27,10 +27,7 @@ jobs:
     - name: Pack
       run:  dotnet pack --configuration Release --output ./output
 
-    - name: Publish to NuGet.org    
-      uses: rollycodes/publish-nuget-private@v3.0.1
+    - name: NuGet push
+      uses: edumserrano/nuget-push@v1.2.2
       with:
-        PROJECT_FILE_PATH: ProfitBaseAPILibraly/ProfitBaseAPILibraly.sln
-        NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
-          
-      
+        api-key: ${{ secrets.NUGET_API_KEY }}
