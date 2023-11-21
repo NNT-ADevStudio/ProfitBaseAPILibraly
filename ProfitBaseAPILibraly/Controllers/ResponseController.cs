@@ -24,6 +24,7 @@ namespace ProfitBaseAPILibraly.Controllers
                         return null;
                     }
 
+                    //? Исправить ошибку
                     try
                     {
                         return JsonConvert.DeserializeObject<JArray>(jsonString);
