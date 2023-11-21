@@ -8,10 +8,10 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int Id { get; }
 
-        public SectionProfit(int id, string title, int count, HouseProfit house) : base(title, house)
-        {
-            Id = id;
-            CountFloor = count;
-        }
+        public SectionProfit(int id, string title, HouseProfit house) : base(title, house) 
+            => Id = id;
+
+        public SectionProfit(int id, string title, int count, HouseProfit house) : this(id, title, house) 
+            => CountFloor = count;
     }
 }

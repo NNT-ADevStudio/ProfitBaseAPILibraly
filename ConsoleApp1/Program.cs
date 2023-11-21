@@ -1,5 +1,5 @@
 ﻿using ConsoleApp1;
 
-Class1 class1 = new Class1();
+Class1 class1 = new();
 
-await class1.Update();
+await class1.GetApartamentById();

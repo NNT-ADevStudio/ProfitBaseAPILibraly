@@ -1,4 +1,5 @@
 ﻿using LivingComplexLib.Models;
+using System.Collections.Generic;
 
 namespace ProfitBaseAPILibraly.Classes
 {
@@ -8,12 +9,6 @@ namespace ProfitBaseAPILibraly.Classes
 
         public CastomStatus Status { get; set; }
 
-        public int CountRoom { get; set; }
-
-        public double RenovationPrice { get; set; }
-
-        public string Queue { get; set; }
-
-        public string FinishType { get; set; }
+        public IEnumerable<CastomProperty> CustomProperties { get; set; }
     }
 }

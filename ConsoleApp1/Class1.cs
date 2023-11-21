@@ -1,11 +1,5 @@
-﻿using LivingComplexLib.Models;
-using ProfitBaseAPILibraly.Classes;
+﻿using ProfitBaseAPILibraly.Classes;
 using ProfitBaseAPILibraly.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -19,17 +13,17 @@ namespace ConsoleApp1
             var projects = await profitBase.GetProject();
             foreach (var project in projects)
             {
-                var houses = await profitBase.GetHouses((ProjectProfit)project);
+                var houses = await profitBase.GetHouses(project);
 
                 foreach (var house in houses)
                 {
-                    var sections = await profitBase.GetSection((HouseProfit)house);
+                    var sections = await profitBase.GetSection(house);
 
                     foreach (SectionProfit section in sections.Cast<SectionProfit>())
                     {
                         for (int i = 1; i <= section.CountFloor + 1; i++)
                         {
-                            Floor floor = new(i, section);
+                            FloorProfit floor = new(i, section);
                             var apartament = await profitBase.GetApartaments(floor);
 
                             if (apartament == null) continue;
@@ -40,7 +34,6 @@ namespace ConsoleApp1
                                 $" {section.Title} " +
                                 $"{floor.Number}");
                         }
-
                     }
                 }
             }
@@ -48,21 +41,30 @@ namespace ConsoleApp1
             return apartamentProfits;
         }
 
+        public async Task GetApartamentById() 
+        {
+            Auth auth = new("app-6528fef718c38", "pb16992");
+            await auth.RefreshAccessToken();
+            ProfitBaseAPI profitBaseAPI = new(auth);
+            await profitBaseAPI.GetApartamentById(11973607);
+
+        }
+
         public async Task Update() 
         {
-            List<ApartamentProfit> apartamentProfits = new List<ApartamentProfit>();
+            List<ApartamentProfit> apartamentProfits = new();
 
-            Auth auth = new("app-65291fbf36ee5", "pb14686");
+            //Auth auth = new("app-65291fbf36ee5", "pb14686");
+            //await auth.RefreshAccessToken();
+            //apartamentProfits.AddRange(await GetApartamentForProfit(new ProfitBaseAPI(auth)));
+
+            Auth auth = new("app-6528fef718c38", "pb16992");
             await auth.RefreshAccessToken();
             apartamentProfits.AddRange(await GetApartamentForProfit(new ProfitBaseAPI(auth)));
 
-            auth = new("app-6528fef718c38", "pb16992");
-            await auth.RefreshAccessToken();
-            apartamentProfits.AddRange(await GetApartamentForProfit(new ProfitBaseAPI(auth)));
-
-            auth = new("app-65292008b6f15", "pb4651");
-            await auth.RefreshAccessToken();
-            apartamentProfits.AddRange(await GetApartamentForProfit(new ProfitBaseAPI(auth)));
+            //auth = new("app-65292008b6f15", "pb4651");
+            //await auth.RefreshAccessToken();
+            //apartamentProfits.AddRange(await GetApartamentForProfit(new ProfitBaseAPI(auth)));
         }
 
     }
