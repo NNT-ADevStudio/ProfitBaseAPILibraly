@@ -21,6 +21,11 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --output ./output
+    - name: Pack
+      run: dotnet pack --configuration Release --output ./output
 
     - name: Upload NuGet package
       uses: actions/upload-artifact@v2
