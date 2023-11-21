@@ -11,12 +11,13 @@ namespace ProfitBaseAPILibraly.Controllers
     {
         private const string mediaType = "application/json";
 
-        internal string BaseUrl { get; }
-        string ApiKey { get; }
-        string Access_token { get; set; }
-        public string Subdomain { get; set; }
+        private string ApiKey { get; }
+        private string Access_token { get; set; }
+        private string AppData { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-        string AppData { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        internal string BaseUrl { get; }
+
+        public string Subdomain { get; set; }
 
         public Auth(string apiKey, string subdomain)
         {
