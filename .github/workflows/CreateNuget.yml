@@ -21,14 +21,10 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-    
     - name: Build
-      run: dotnet build --configuration Release ./output
-    - name: Pack
-      run: dotnet pack --configuration Release ./output
-
-    - name: Upload NuGet package
-      uses: actions/upload-artifact@v2
+      run: dotnet build --configuration Release --no-restore
+    - name: Publish FluentEmail.Core
+      uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        name: ProfitBaseApi
-        path: ./output/*.nupkg
+          PROJECT_FILE_PATH: ProfitBaseAPILibraly/ProfitBaseAPILibraly.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
