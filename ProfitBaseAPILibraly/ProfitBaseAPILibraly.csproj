@@ -8,8 +8,10 @@
     <Company>NNT ADevStudio</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AnalysisLevel>6.0-all</AnalysisLevel>
-    <Version>1.1.5-beta0.0.5</Version>
+    <Version>1.1.5-beta0.0.6</Version>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <PackageReleaseNotes>HouseProfit: пустой конструктор
+ApartamentProfit: BookedAt</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

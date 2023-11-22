@@ -165,8 +165,10 @@ namespace ProfitBaseAPILibraly.Controllers
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "code").GetValue(), CultureInfo.CurrentCulture);
             temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "number").GetValue(), CultureInfo.CurrentCulture);
+            if (result["bookedAt"].Type != JTokenType.Null)
+                temp.BookedAt = result["bookedAt"].ToString();
 
-            if(CastomStatuses == null)
+            if (CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
 
             temp.Status = CastomStatuses.FirstOrDefault(
