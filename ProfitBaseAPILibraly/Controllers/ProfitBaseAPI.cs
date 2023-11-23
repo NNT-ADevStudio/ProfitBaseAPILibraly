@@ -27,7 +27,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
             {
-                Query = $"access_token={Auth.GetAccessToken()}" + temp.ToString()
+                Query = $"access_token={Auth.AccessToken}" + temp.ToString()
             };
 
             return url.Uri;

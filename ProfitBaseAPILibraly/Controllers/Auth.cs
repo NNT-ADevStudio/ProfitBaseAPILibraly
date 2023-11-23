@@ -55,11 +55,14 @@ namespace ProfitBaseAPILibraly.Controllers
             return true;
         }
 
-        public string GetAccessToken()
+        public string AccessToken
         {
-            string json = File.ReadAllText($"{AppData}\\{Subdomain}.json");
-            JObject jsonObject = JObject.Parse(json);
-            return jsonObject["access_token"].ToString();
+            get
+            {
+                string json = File.ReadAllText($"{AppData}\\{Subdomain}.json");
+                JObject jsonObject = JObject.Parse(json);
+                return jsonObject["access_token"].ToString();
+            }
         }
 
         public void SetTokens(string access)
