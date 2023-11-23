@@ -35,21 +35,15 @@ namespace ProfitBaseAPILibraly.Controllers
                 stringBuilder.Append($"\"pb_api_key\": \"{ApiKey}\"");
                 stringBuilder.Append("}}");
 
-                using (StringContent data = new StringContent(
-                    stringBuilder.ToString(),
-                    null, mediaType))
-                {
-                    using (var response = await httpClient.PostAsync(
-                        $"{BaseUrl}authentication", data)
-                        .ConfigureAwait(false))
-                    {
-                        string result = response.Content.ReadAsStringAsync().Result;
-                        JObject jsonObject = JObject.Parse(result);
+                var data = new StringContent(stringBuilder.ToString(),null, mediaType);
+                var response = await httpClient.PostAsync(
+                    $"{BaseUrl}authentication", data)
+                    .ConfigureAwait(false);
+                string result = response.Content.ReadAsStringAsync().Result;
+                JObject jsonObject = JObject.Parse(result);
 
-                        Access_token = jsonObject["access_token"].ToString();
-                        SetTokens(Access_token);
-                    }
-                }
+                Access_token = jsonObject["access_token"].ToString();
+                SetTokens(Access_token);
             }
 
             return true;
