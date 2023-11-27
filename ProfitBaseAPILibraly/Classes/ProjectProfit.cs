@@ -8,6 +8,8 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string Subdomain { get; }
 
+        public string Locality { get; set; }
+
         public ProjectProfit(int id, string title, string subdomain) : base(title)
         {
             Id = id;

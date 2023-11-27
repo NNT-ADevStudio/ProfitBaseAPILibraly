@@ -47,10 +47,14 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             foreach (var item in result)
-                projects.Add(new ProjectProfit(
+            {
+                var temp = new ProjectProfit(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
                     Convert.ToString(item["title"], CultureInfo.CurrentCulture),
-                    Auth.Subdomain));
+                    Auth.Subdomain);
+                temp.Locality = Convert.ToString(item["locality"], CultureInfo.CurrentCulture);
+                projects.Add(temp);
+            }
 
             return projects;
         }
@@ -165,8 +169,9 @@ namespace ProfitBaseAPILibraly.Controllers
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "code").GetValue(), CultureInfo.CurrentCulture);
             temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "number").GetValue(), CultureInfo.CurrentCulture);
-            if (result["bookedAt"].Type != JTokenType.Null)
-                temp.BookedAt = result["bookedAt"].ToString();
+            if (result["bookedAt"] != null)
+                if (result["bookedAt"].Type != JTokenType.Null)
+                    temp.BookedAt = result["bookedAt"].ToString();
 
             if (CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
