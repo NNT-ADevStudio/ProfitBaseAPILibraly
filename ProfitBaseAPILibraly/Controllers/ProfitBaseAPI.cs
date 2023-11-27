@@ -165,7 +165,7 @@ namespace ProfitBaseAPILibraly.Controllers
                     Convert.ToString(field["value"], CultureInfo.CurrentCulture),
                     GetVariableType(field["value"].Type)));
             }
-            Console.WriteLine(tempCastomProperty.Count);
+
             temp.CustomProperties = tempCastomProperty;
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
