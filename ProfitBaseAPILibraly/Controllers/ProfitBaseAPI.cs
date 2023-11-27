@@ -153,7 +153,6 @@ namespace ProfitBaseAPILibraly.Controllers
         {
             if (result == null) return null;
             JObject data = result.ToObject<JObject>();
-
             List<CastomProperty> tempCastomProperty = new List<CastomProperty>();
             ApartamentProfit temp = new ApartamentProfit();
 
@@ -166,9 +165,12 @@ namespace ProfitBaseAPILibraly.Controllers
                     Convert.ToString(field["value"], CultureInfo.CurrentCulture),
                     GetVariableType(field["value"].Type)));
             }
+            Console.WriteLine(tempCastomProperty.Count);
+            temp.CustomProperties = tempCastomProperty;
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
-            temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "code").GetValue(), CultureInfo.CurrentCulture);
-            temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Id == "number").GetValue(), CultureInfo.CurrentCulture);
+            temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
+            temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Номер помещения").GetValue(), CultureInfo.CurrentCulture);
+
             if (result["bookedAt"] != null)
                 if (result["bookedAt"].Type != JTokenType.Null)
                     temp.BookedAt = result["bookedAt"].ToString();

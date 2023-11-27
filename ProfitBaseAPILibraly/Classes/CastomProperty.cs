@@ -23,7 +23,13 @@ namespace ProfitBaseAPILibraly.Classes
 
         public CastomProperty(string id, string name, string value, Type type) : this(id, name, value) => Type = type;
 
-        public object GetValue() => Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
+        public object GetValue()
+        {
+            if (value == null) return null;
+            if (string.IsNullOrEmpty(value)) return null;
+            if (Type == null) return null;
+            return Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
+        }
 
         public void SetValue(string value, Type type)
         {
