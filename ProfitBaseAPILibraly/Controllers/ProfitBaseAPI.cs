@@ -129,7 +129,7 @@ namespace ProfitBaseAPILibraly.Controllers
             foreach (var item in result[0]["data"])
             {
                 if (item == null) continue;
-                await GetInfoApartament(item).ConfigureAwait(false);
+                items.Add(await GetInfoApartament(item).ConfigureAwait(false));
             }
 
             return items;
