@@ -168,6 +168,10 @@ namespace ProfitBaseAPILibraly.Controllers
                     GetVariableType(field["value"].Type)));
             }
 
+            if (result["status"] != null)
+                if (result["status"].Type != JTokenType.Null)
+                    temp.ProfitStatus = Convert.ToString(result["status"], CultureInfo.CurrentCulture);
+
             temp.CustomProperties = tempCastomProperty;
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
