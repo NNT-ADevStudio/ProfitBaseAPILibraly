@@ -25,7 +25,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <summary>
         /// Базовый URL для API ProfitBase.
         /// </summary>
-        internal string BaseUrl { get; }
+        public Uri BaseUrl { get; }
 
         /// <summary>
         /// Поддомен ProfitBase.
@@ -53,7 +53,7 @@ namespace ProfitBaseAPILibraly.Controllers
         public Auth(string apiKey, string subdomain)
         {
             ApiKey = apiKey;
-            BaseUrl = "https://" + subdomain + ".profitbase.ru/api/v4/json/";
+            BaseUrl = new Uri("https://" + subdomain + ".profitbase.ru/api/v4/json/");
             Subdomain = subdomain;
         }
 
