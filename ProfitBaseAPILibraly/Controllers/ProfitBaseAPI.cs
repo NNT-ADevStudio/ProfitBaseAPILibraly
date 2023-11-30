@@ -11,10 +11,20 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class ProfitBaseAPI
     {
+        /// <summary>
+        /// Кастомные статусы
+        /// </summary>
         ICollection<CastomStatus> CastomStatuses { get; set; }
 
+        /// <summary>
+        /// Класс аутентификации
+        /// </summary>
         public Auth Auth { get; }
 
+        /// <summary>
+        /// Создает новый экземпляр класса ProfitBaseAPI
+        /// </summary>
+        /// <param name="auth">Класс аутентификации</param>
         public ProfitBaseAPI(Auth auth) => Auth = auth;
 
         public Uri CreateUrl(Dictionary<string, string> keyValues, string endPoint)

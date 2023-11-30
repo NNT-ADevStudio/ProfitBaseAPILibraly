@@ -6,9 +6,9 @@
     <Title>ProfitBaseAPI</Title>
     <Authors>AlRlR</Authors>
     <Company>NNT ADevStudio</Company>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <AnalysisLevel>6.0-all</AnalysisLevel>
-    <Version>1.1.5-beta0.0.17</Version>
+    <Version>1.1.5-beta0.0.18</Version>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>

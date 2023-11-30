@@ -7,17 +7,49 @@ using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
 {
+    /// <summary>
+    /// Класс, представляющий аутентификацию для API ProfitBase.
+    /// </summary>
     public class Auth
     {
-        private const string mediaType = "application/json";
+        /// <summary>
+        /// Путь к папке AppData.
+        /// </summary>
+        private string AppDataPath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
+        /// <summary>
+        /// Ключ API.
+        /// </summary>
         private string ApiKey { get; }
-        private string Access_token { get; set; }
-        private string AppData { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        /// <summary>
+        /// Базовый URL для API ProfitBase.
+        /// </summary>
         internal string BaseUrl { get; }
 
+        /// <summary>
+        /// Поддомен ProfitBase.
+        /// </summary>
         public string Subdomain { get; set; }
 
+        /// <summary>
+        /// Токен доступа.
+        /// </summary>
+        public string AccessToken
+        {
+            get
+            {
+                string json = File.ReadAllText($"{AppDataPath}\\{Subdomain}.json");
+                JObject jsonObject = JObject.Parse(json);
+                return jsonObject["access_token"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// Создает новый экземпляр класса Auth.
+        /// </summary>
+        /// <param name="apiKey">Ключ API.</param>
+        /// <param name="subdomain">Поддомен ProfitBase.</param>
         public Auth(string apiKey, string subdomain)
         {
             ApiKey = apiKey;
@@ -25,6 +57,10 @@ namespace ProfitBaseAPILibraly.Controllers
             Subdomain = subdomain;
         }
 
+        /// <summary>
+        /// Обновляет токен доступа.
+        /// </summary>
+        /// <returns>Возвращает true, если обновление токена прошло успешно, иначе false.</returns>
         public async Task<bool> RefreshAccessToken()
         {
             using (HttpClient httpClient = new HttpClient())
@@ -35,30 +71,23 @@ namespace ProfitBaseAPILibraly.Controllers
                 stringBuilder.Append($"\"pb_api_key\": \"{ApiKey}\"");
                 stringBuilder.Append("}}");
 
-                var data = new StringContent(stringBuilder.ToString(),null, mediaType);
+                var data = new StringContent(stringBuilder.ToString(), null, "application/json");
                 var response = await httpClient.PostAsync(
                     $"{BaseUrl}authentication", data)
                     .ConfigureAwait(false);
+                data.Dispose();
                 string result = response.Content.ReadAsStringAsync().Result;
                 JObject jsonObject = JObject.Parse(result);
-
-                Access_token = jsonObject["access_token"].ToString();
-                SetTokens(Access_token);
+                SetTokens(jsonObject["access_token"].ToString());
             }
 
             return true;
         }
 
-        public string AccessToken
-        {
-            get
-            {
-                string json = File.ReadAllText($"{AppData}\\{Subdomain}.json");
-                JObject jsonObject = JObject.Parse(json);
-                return jsonObject["access_token"].ToString();
-            }
-        }
-
+        /// <summary>
+        /// Устанавливает токены доступа.
+        /// </summary>
+        /// <param name="access">Токен доступа.</param>
         public void SetTokens(string access)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -69,7 +98,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             string json = stringBuilder.ToString();
 
-            File.WriteAllText($"{AppData}\\{Subdomain}.json", json);
+            File.WriteAllText($"{AppDataPath}\\{Subdomain}.json", json);
         }
     }
 }
