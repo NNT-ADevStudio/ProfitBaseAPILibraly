@@ -14,7 +14,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <summary>
         /// Кастомные статусы
         /// </summary>
-        ICollection<CastomStatus> CastomStatuses { get; set; }
+        private ICollection<CastomStatus> CastomStatuses { get; set; }
 
         /// <summary>
         /// Класс аутентификации
@@ -27,7 +27,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <param name="auth">Класс аутентификации</param>
         public ProfitBaseAPI(Auth auth) => Auth = auth;
 
-        public Uri CreateUrl(Dictionary<string, string> keyValues, string endPoint)
+        private Uri CreateUrl(Dictionary<string, string> keyValues, string endPoint)
         {
             StringBuilder temp = new StringBuilder();
 
@@ -238,8 +238,7 @@ namespace ProfitBaseAPILibraly.Controllers
                 case JTokenType.Array:
                     return typeof(Array);
                 default:
-                    Console.WriteLine(tokenType);
-                    throw new ArgumentException("Неподдерживаемый JTokenType");
+                    throw new ArgumentException($"Неподдерживаемый JTokenType: {tokenType}");
             }
         }
     }

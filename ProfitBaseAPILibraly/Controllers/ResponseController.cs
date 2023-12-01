@@ -9,7 +9,7 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     internal static class ResponseController
     {
-        public static async Task<JArray> GetResultResponse(string url)
+        internal static async Task<JArray> GetResultResponse(string url)
         {
             using (HttpClient httpClient = new HttpClient())
             {
