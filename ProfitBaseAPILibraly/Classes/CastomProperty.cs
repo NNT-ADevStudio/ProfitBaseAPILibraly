@@ -28,6 +28,7 @@ namespace ProfitBaseAPILibraly.Classes
             if (value == null) return null;
             if (string.IsNullOrEmpty(value)) return null;
             if (Type == null) return null;
+            if (Type == Type.GetType(null)) return null;
 
             return Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
         }
