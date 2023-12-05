@@ -20,7 +20,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <summary>
         /// Ключ API.
         /// </summary>
-        private string ApiKey { get; }
+        public string ApiKey { get; }
 
         /// <summary>
         /// Базовый URL для API ProfitBase.
