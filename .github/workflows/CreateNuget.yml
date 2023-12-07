@@ -23,8 +23,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Publish FluentEmail.Core
-      uses: brandedoutcast/publish-nuget@v2.5.2
+    - name: Publish Nuget Pakage
+      uses: brandedoutcast/publish-nuget@v2.5.2 --skip-duplicate  
       with:
           PROJECT_FILE_PATH: ProfitBaseAPILibraly/ProfitBaseAPILibraly.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
