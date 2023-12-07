@@ -35,7 +35,7 @@ namespace ProfitBaseAPILibraly.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine(ex.Message);
+                        Debug.WriteLine(ex + "\n" + jsonString);
                         throw;
                     }
                 }

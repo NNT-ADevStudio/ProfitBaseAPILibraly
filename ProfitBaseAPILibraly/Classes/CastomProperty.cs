@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace ProfitBaseAPILibraly.Classes
@@ -25,12 +26,27 @@ namespace ProfitBaseAPILibraly.Classes
 
         public object GetValue()
         {
-            if (value == null) return null;
-            if (string.IsNullOrEmpty(value)) return null;
-            if (Type == null) return null;
-            if (Type == Type.GetType(null)) return null;
+            try
+            {
+                if (value == null) return null;
+                if (string.IsNullOrEmpty(value)) return null;
+                if (Type == null) return null;
 
-            return Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
+                return Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
+            }
+            catch (InvalidCastException ex)
+            {
+                // Обработка исключения, возникающего, если преобразование не поддерживается
+                Debug.WriteLine(ex); // Пример логирования
+                return null;
+            }
+            catch (FormatException ex)
+            {
+                // Обработка исключения, возникающего, если значение не соответствует формату ожидаемого типа
+                Debug.WriteLine(ex); // Пример логирования
+                return null;
+            }
+
         }
 
         public void SetValue(string value, Type type)

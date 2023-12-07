@@ -11,7 +11,7 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string ProfitStatus { get; set; }
 
-        public IEnumerable<CastomProperty> CustomProperties { get; set; }
+        public IEnumerable<CastomProperty> CustomProperties { get; set; } = new List<CastomProperty>();
 
         public string BookedAt { get; set; }
     }
