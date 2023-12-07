@@ -46,8 +46,9 @@ namespace ProfitBaseAPILibraly.Classes
                 Debug.WriteLine(ex); 
                 return null;
             }
-            catch (NullReferenceException ex) 
+            catch (Exception ex)
             {
+                // Обработка остальных исключений
                 Debug.WriteLine(ex);
                 return null;
             }
