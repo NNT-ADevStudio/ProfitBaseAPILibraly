@@ -120,6 +120,11 @@ namespace ProfitBaseAPILibraly.Controllers
             return items;
         }
 
+        /// <summary>
+        /// Получить ApartamentProfit по этажу
+        /// </summary>
+        /// <param name="floor"></param>
+        /// <returns></returns>
         public async Task<List<ApartamentProfit>> GetApartaments(FloorProfit floor)
         {
             if (floor == null) return null;
@@ -151,6 +156,11 @@ namespace ProfitBaseAPILibraly.Controllers
             return items;
         }
 
+        /// <summary>
+        /// Получить ApartamentProfit по id 
+        /// </summary>
+        /// <param name="id">id ApartamentProfit</param>
+        /// <returns>ApartamentProfit с id</returns>
         public async Task<ApartamentProfit> GetApartamentById(int id)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>
@@ -165,7 +175,7 @@ namespace ProfitBaseAPILibraly.Controllers
             return await GetInfoApartament(result[0]["data"][0]).ConfigureAwait(false);
         }
 
-        public async Task<ApartamentProfit> GetInfoApartament(JToken result)
+        private async Task<ApartamentProfit> GetInfoApartament(JToken result)
         {
             if (result == null) return null;
             JObject data = result.ToObject<JObject>();
@@ -204,6 +214,10 @@ namespace ProfitBaseAPILibraly.Controllers
             return temp;
         }
 
+        /// <summary>
+        /// Получить все статусы
+        /// </summary>
+        /// <returns>Коллекция статусов</returns>
         public async Task<ICollection<CastomStatus>> GetCastomStatus()
         {
             ICollection<CastomStatus> collection = new List<CastomStatus>();
@@ -223,6 +237,13 @@ namespace ProfitBaseAPILibraly.Controllers
             return collection;
         }
 
+
+        /// <summary>
+        /// Получить тип переменной
+        /// </summary>
+        /// <param name="tokenType">Тип токена</param>
+        /// <returns>Тип переменной</returns>
+        /// <exception cref="ArgumentException">Если тип не соответсвует типу в списке</exception>
         private static Type GetVariableType(JTokenType tokenType)
         {
             switch (tokenType)
