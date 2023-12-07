@@ -43,6 +43,10 @@ namespace ProfitBaseAPILibraly.Controllers
             return url.Uri;
         }
 
+        /// <summary>
+        /// Метод получение всех проектов из ProfitBase
+        /// </summary>
+        /// <returns>List<ProjectProfit> проектов</returns>
         public async Task<List<ProjectProfit>> GetProject()
         {
             List<ProjectProfit> projects = new List<ProjectProfit>();
@@ -178,9 +182,8 @@ namespace ProfitBaseAPILibraly.Controllers
                     GetVariableType(field["value"].Type)));
             }
 
-            if (result["status"] != null)
-                if (result["status"].Type != JTokenType.Null)
-                    temp.ProfitStatus = Convert.ToString(result["status"], CultureInfo.CurrentCulture);
+            if (result["status"] != null && result["status"].Type != JTokenType.Null)
+                temp.ProfitStatus = Convert.ToString(result["status"], CultureInfo.CurrentCulture);
 
             temp.TotalArea = Convert.ToDouble(result["area"]["area_total"], CultureInfo.CurrentCulture);
             temp.Price = Convert.ToDouble(result["price"]["value"], CultureInfo.CurrentCulture);
@@ -189,9 +192,8 @@ namespace ProfitBaseAPILibraly.Controllers
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
             temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Номер помещения").GetValue(), CultureInfo.CurrentCulture);
 
-            if (result["bookedAt"] != null)
-                if (result["bookedAt"].Type != JTokenType.Null)
-                    temp.BookedAt = result["bookedAt"].ToString();
+            if (result["bookedAt"] != null && result["bookedAt"].Type != JTokenType.Null)
+                temp.BookedAt = result["bookedAt"].ToString();
 
             if (CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
