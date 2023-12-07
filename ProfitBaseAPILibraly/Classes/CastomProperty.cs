@@ -37,16 +37,20 @@ namespace ProfitBaseAPILibraly.Classes
             catch (InvalidCastException ex)
             {
                 // Обработка исключения, возникающего, если преобразование не поддерживается
-                Debug.WriteLine(ex); // Пример логирования
+                Debug.WriteLine(ex);
                 return null;
             }
             catch (FormatException ex)
             {
                 // Обработка исключения, возникающего, если значение не соответствует формату ожидаемого типа
-                Debug.WriteLine(ex); // Пример логирования
+                Debug.WriteLine(ex); 
                 return null;
             }
-
+            catch (NullReferenceException ex) 
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         public void SetValue(string value, Type type)
