@@ -205,6 +205,9 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result["bookedAt"] != null && result["bookedAt"].Type != JTokenType.Null)
                 temp.BookedAt = result["bookedAt"].ToString();
 
+            if (result["responsibleName"] != null && result["responsibleName"].Type != JTokenType.Null)
+                temp.ResponsibleName = result["responsibleName"].ToString();
+
             if (CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
 
