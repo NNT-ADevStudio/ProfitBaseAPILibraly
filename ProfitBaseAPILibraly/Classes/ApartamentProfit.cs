@@ -16,5 +16,7 @@ namespace ProfitBaseAPILibraly.Classes
         public string BookedAt { get; set; }
 
         public string ResponsibleName { get; set; }
+
+        public int RoomCount { get; set; }
     }
 }

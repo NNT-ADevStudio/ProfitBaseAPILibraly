@@ -197,6 +197,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             temp.TotalArea = Convert.ToDouble(result["area"]["area_total"], CultureInfo.CurrentCulture);
             temp.Price = Convert.ToDouble(result["price"]["value"], CultureInfo.CurrentCulture);
+            temp.RoomCount = Convert.ToInt32(result["rooms_amount"], CultureInfo.CurrentCulture);
             temp.CustomProperties = tempCastomProperty;
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
