@@ -1,14 +1,29 @@
-﻿using LivingComplexLib.Models;
+﻿using System.Collections.Generic;
 
 namespace ProfitBaseAPILibraly.Classes
 {
-    public class HouseProfit : House
+    public class HouseProfit
     {
+        public string Title { get; set; }
+
+        public ProjectProfit Project { get; set; }
+
+        public int ProjectId { get; set; }
+
+        public List<SectionProfit> Sections { get; set; }
+
         public int Id { get; set; }
 
-        public HouseProfit(int id, string title, ProjectProfit project) : base(title, project)
-            => Id = id;
+        public HouseProfit(int id, ProjectProfit project)
+        {
+            Id = id;
+            Project = project;
+        }
 
-        public HouseProfit() => Project = new Project();
+        public HouseProfit(int id, int projectID)
+        {
+            Id = id;
+            ProjectId = projectID;
+        }
     }
 }

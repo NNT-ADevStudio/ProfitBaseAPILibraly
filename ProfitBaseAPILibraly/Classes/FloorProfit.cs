@@ -1,9 +1,23 @@
-﻿using LivingComplexLib.Models;
-
-namespace ProfitBaseAPILibraly.Classes
+﻿namespace ProfitBaseAPILibraly.Classes
 {
-    public class FloorProfit : Floor
+    public class FloorProfit
     {
-        public FloorProfit(int number, Section section) : base(number, section) { }
+        public int Number { get; set; }
+
+        public SectionProfit Section { get; set; }
+
+        public int SectionId { get; set; }
+
+        public FloorProfit(int number, SectionProfit section)
+        {
+            Number = number;
+            Section = section;
+        }
+
+        public FloorProfit(int number, int sectionId)
+        {
+            Number = number;
+            SectionId = sectionId;
+        }
     }
 }

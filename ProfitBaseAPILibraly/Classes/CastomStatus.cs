@@ -1,5 +1,4 @@
-﻿
-namespace ProfitBaseAPILibraly.Classes
+﻿namespace ProfitBaseAPILibraly.Classes
 {
     public class CastomStatus
     {
