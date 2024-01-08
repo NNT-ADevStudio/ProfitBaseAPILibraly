@@ -27,7 +27,7 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             foreach (var item in result)
-            {
+    {
                 var temp = new ProjectProfit(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
                     Auth.Subdomain);
