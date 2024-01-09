@@ -4,6 +4,8 @@
     {
         public int Number { get; set; }
 
+        public int CountApartament { get; set; }
+
         public SectionProfit Section { get; set; }
 
         public int SectionId { get; set; }

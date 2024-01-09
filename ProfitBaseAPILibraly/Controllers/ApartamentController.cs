@@ -16,11 +16,6 @@ namespace ProfitBaseAPILibraly.Controllers
         public ApartamentController(Auth auth) : base(auth)
         { }
 
-        public async Task<List<ApartamentProfit>> GetApartamentByFloor(FloorProfit floor) 
-        {
-            return null;
-        }
-
         public async Task<ApartamentProfit> GetApartamentById(int id)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>
@@ -35,7 +30,7 @@ namespace ProfitBaseAPILibraly.Controllers
             return await GetInfoApartament(result[0]["data"][0]).ConfigureAwait(false);
         }
 
-        public async Task<List<ApartamentProfit>> GetApartaments(FloorProfit floor)
+        public async Task<List<ApartamentProfit>> GetApartamentsByFloor(FloorProfit floor)
         {
             if (floor == null) return null;
 
@@ -110,9 +105,19 @@ namespace ProfitBaseAPILibraly.Controllers
             return temp;
         }
 
-        public async Task<bool> ChangeStatus(int id, string newStatus) 
+        public async Task<bool> ChangeStatus(int id, string newStatus)
         {
-            throw new NotSupportedException();
+            Dictionary<string, string> keyValues = new Dictionary<string, string>
+            {
+                { "id", $"{id}" },
+                { "full", "true" }
+            };
+
+            JArray result = await GetResultResponse(
+                CreateUrl(keyValues, $"properties/{id}/status-change").ToString()).ConfigureAwait(false);
+
+            
+            return true;
         }
 
         public async Task<ICollection<CastomStatus>> GetCastomStatus()

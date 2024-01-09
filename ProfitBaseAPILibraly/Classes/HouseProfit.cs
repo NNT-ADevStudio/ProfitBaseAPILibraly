@@ -25,5 +25,12 @@ namespace ProfitBaseAPILibraly.Classes
             Id = id;
             ProjectId = projectID;
         }
+
+        public HouseProfit(int id, int projectID, string title) 
+        {
+            Id = id;
+            ProjectId = projectID;
+            Title = title;
+        }
     }
 }

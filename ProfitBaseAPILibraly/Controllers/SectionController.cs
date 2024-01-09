@@ -3,7 +3,6 @@ using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -29,7 +28,8 @@ namespace ProfitBaseAPILibraly.Controllers
             foreach (var item in result[0]["data"])
                 items.Add(new SectionProfit(
                     Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture),
-                    house));
+                    house,
+                    Convert.ToString(item["title"], CultureInfo.CurrentCulture)));
 
             return items;
         }

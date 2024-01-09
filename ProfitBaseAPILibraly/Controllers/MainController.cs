@@ -46,6 +46,22 @@ namespace ProfitBaseAPILibraly.Controllers
             return url.Uri;
         }
 
+        protected Uri CreateUrl(string keyValues, string endPoint)
+        {
+            StringBuilder temp = new StringBuilder();
+
+            if (keyValues != null)
+                    temp.Append($"{keyValues}");
+
+            var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
+            {
+                Query = $"access_token={Auth.AccessToken}" + temp.ToString()
+            };
+
+            return url.Uri;
+        }
+
+
         /// <summary>
         /// Получает ответ от указанного URL и возвращает десериализованный объект JArray.
         /// </summary>

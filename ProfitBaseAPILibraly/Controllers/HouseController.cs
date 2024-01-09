@@ -1,5 +1,4 @@
-﻿using LivingComplexLib.Models;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
@@ -26,7 +25,8 @@ namespace ProfitBaseAPILibraly.Controllers
 
             HouseProfit house = new HouseProfit(
                 Convert.ToInt32(result[0]["data"][0]["id"], CultureInfo.CurrentCulture),
-                Convert.ToInt32(result[0]["data"][0]["projectId"], CultureInfo.CurrentCulture));
+                Convert.ToInt32(result[0]["data"][0]["projectId"], CultureInfo.CurrentCulture),
+                Convert.ToString(result[0]["data"][0]["title"], CultureInfo.CurrentCulture));
             return house;
         }
 
@@ -42,7 +42,8 @@ namespace ProfitBaseAPILibraly.Controllers
             foreach (var item in result[0]["data"])
                 items.Add(new HouseProfit(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
-                    Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture)));
+                    Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture),
+                    Convert.ToString(item["title"], CultureInfo.CurrentCulture)));
 
             return items;
         }

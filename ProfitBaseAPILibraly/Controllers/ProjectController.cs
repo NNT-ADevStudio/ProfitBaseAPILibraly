@@ -9,11 +9,9 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class ProjectController : MainController
     {
-        public ProjectController(Auth auth) : base(auth)
-        {
-        }
+        public ProjectController(Auth auth) : base(auth) { }
 
-        public async Task<List<ProjectProfit>> GetProjectAll(bool isArchive = false) 
+        public async Task<List<ProjectProfit>> GetProjectAll(bool isArchive = false)
         {
             List<ProjectProfit> projects = new List<ProjectProfit>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
@@ -27,7 +25,7 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             foreach (var item in result)
-    {
+            {
                 var temp = new ProjectProfit(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
                     Auth.Subdomain);

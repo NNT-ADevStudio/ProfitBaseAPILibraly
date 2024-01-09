@@ -25,5 +25,10 @@ namespace ProfitBaseAPILibraly.Classes
         {
             HouseId = houseId;
         }
+
+        public SectionProfit(int id, HouseProfit house, string title) : this(id, house)
+        {
+            Title = title;
+        }
     }
 }
