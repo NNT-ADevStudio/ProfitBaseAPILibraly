@@ -50,8 +50,8 @@ namespace ProfitBaseAPILibraly.Controllers
         {
             StringBuilder temp = new StringBuilder();
 
-            if (keyValues != null)
-                    temp.Append($"{keyValues}");
+            if (keyValues != null || keyValues != string.Empty)
+                temp.Append($"{keyValues}");
 
             var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
             {

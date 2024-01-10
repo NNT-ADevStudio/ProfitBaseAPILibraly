@@ -15,7 +15,7 @@ namespace ProfitBaseAPILibraly.Controllers
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
-                { "projectId", $"{id}" }
+                { "id", $"{id}" }
             };
 
             JArray result = await GetResultResponse(
@@ -35,7 +35,7 @@ namespace ProfitBaseAPILibraly.Controllers
             List<HouseProfit> items = new List<HouseProfit>();
 
             JArray result = await GetResultResponse(
-                CreateUrl(null, "house").ToString()).ConfigureAwait(false);
+                CreateUrl(string.Empty, "house").ToString()).ConfigureAwait(false);
 
             if (result == null) return items;
 
@@ -65,6 +65,26 @@ namespace ProfitBaseAPILibraly.Controllers
 
             foreach (var item in result[0]["data"])
                 items.Add(new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), project));
+
+            project.HouseList = items;
+            return items;
+        }
+
+        public async Task<List<HouseProfit>> GetHousesByProjectId(int projectId)
+        {
+            List<HouseProfit> items = new List<HouseProfit>();
+            Dictionary<string, string> keyValues = new Dictionary<string, string>
+            {
+                { "projectId", $"{projectId}" }
+            };
+
+            JArray result = await GetResultResponse(
+                CreateUrl(keyValues, "house").ToString()).ConfigureAwait(false);
+
+            if (result == null) return items;
+
+            foreach (var item in result[0]["data"])
+                items.Add(new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), projectId));
 
             return items;
         }
