@@ -16,7 +16,12 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int Id { get; set; }
 
-        public List<SectionProfit> Sections { get; set; }
+        private List<SectionProfit> _sections;
+        public List<SectionProfit> Sections
+        {
+            get => _sections ?? (_sections = new List<SectionProfit>());
+            set => _sections = value;
+        }
 
         private HouseProfit(int id) => Id = id;
 

@@ -6,7 +6,12 @@ namespace ProfitBaseAPILibraly.Classes
     {
         public string Title { get; set; }
 
-        public List<FloorProfit> Floors { get; set; }
+        private List<FloorProfit> _floors;
+        public List<FloorProfit> Floors 
+        { 
+            get => _floors ?? (_floors = new List<FloorProfit>());
+            set => _floors = value;
+        }
 
         public HouseProfit House { get; set; }
 

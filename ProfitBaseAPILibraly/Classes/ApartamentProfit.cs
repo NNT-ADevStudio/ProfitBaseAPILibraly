@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ProfitBaseAPILibraly.Classes
 {
@@ -10,7 +11,12 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string ProfitStatus { get; set; }
 
-        public IEnumerable<CastomProperty> CustomProperties { get; set; } = new List<CastomProperty>();
+        private List<CastomProperty> _customProperties;
+        public IEnumerable<CastomProperty> CustomProperties
+        {
+            get => _customProperties ?? (_customProperties = new List<CastomProperty>());
+            set => _customProperties = value.ToList();
+        }
 
         public string BookedAt { get; set; }
 
@@ -24,7 +30,16 @@ namespace ProfitBaseAPILibraly.Classes
 
         public double Price { get; set; }
 
-        public FloorProfit Floor { get; set; }
+        private FloorProfit _floor;
+        public FloorProfit Floor
+        {
+            get => _floor;
+            set
+            {
+                _floor = value;
+                FloorId = value?.Id ?? 0;
+            }
+        }
 
         public int FloorId { get; set; }
 

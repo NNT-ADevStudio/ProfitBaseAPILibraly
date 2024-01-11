@@ -8,7 +8,12 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string Title { get; set; }
 
-        public List<HouseProfit> HouseList { get; set; }
+        private List<HouseProfit> _houseList;
+        public List<HouseProfit> HouseList
+        {
+            get => _houseList ?? (_houseList = new List<HouseProfit>());
+            set => _houseList = value;
+        }
 
         public string Subdomain { get; }
 

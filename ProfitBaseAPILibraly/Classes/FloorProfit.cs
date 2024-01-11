@@ -12,7 +12,18 @@ namespace ProfitBaseAPILibraly.Classes
 
         public SectionProfit Section { get; set; }
 
-        public List<ApartamentProfit> Apartaments { get; set; }
+        private List<ApartamentProfit> _apartaments;
+        public List<ApartamentProfit> Apartaments
+        {
+            get
+            {
+                return _apartaments ?? (_apartaments = new List<ApartamentProfit>());
+            }
+            set
+            {
+                _apartaments = value;
+            }
+        }
 
         public int SectionId { get; set; }
 
