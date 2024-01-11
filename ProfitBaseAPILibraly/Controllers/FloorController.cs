@@ -17,6 +17,8 @@ namespace ProfitBaseAPILibraly.Controllers
 
             for (int i = house.MinFloor; i <= house.MaxFloor; i++)
             {
+                List<FloorProfit> tempFloors = new List<FloorProfit>();
+
                 Dictionary<string, string> keyValues = new Dictionary<string, string>
                 {
                     { "houseId", $"{house.Id}" },
@@ -36,12 +38,12 @@ namespace ProfitBaseAPILibraly.Controllers
                     temp.CountApartament = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
                     temp.Id = Convert.ToInt32(item["id"], CultureInfo.CurrentCulture);
 
-                    items.Add(temp);
+                    tempFloors.Add(temp);
                 }
 
                 if (house.Sections == null || house.Sections.Count == 0) continue;
 
-                foreach (var floor in items)
+                foreach (var floor in tempFloors)
                 {
                     var section = house.Sections.Find(x => x.Id == floor.SectionId);
 
@@ -50,6 +52,8 @@ namespace ProfitBaseAPILibraly.Controllers
                     floor.Section = section;
                     section.Floors.Add(floor);
                 }
+
+                items.AddRange(tempFloors);
             }
 
             return items;
