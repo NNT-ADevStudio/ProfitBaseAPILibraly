@@ -65,9 +65,17 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
-                items.Add(new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), project));
+            {
+                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), project);
+                temp.Title = Convert.ToString(item["title"], CultureInfo.CurrentCulture);
+                temp.ProjectId = Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture);
 
+                items.Add(temp);
+            }
+
+            items.ForEach(x => x.Project = project);
             project.HouseList = items;
+
             return items;
         }
 
@@ -85,7 +93,13 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
-                items.Add(new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), projectId));
+            {
+                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), projectId);
+                temp.Title = Convert.ToString(item["title"], CultureInfo.CurrentCulture);
+                temp.ProjectId = Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture);
+
+                items.Add(temp);
+            }
 
             return items;
         }
