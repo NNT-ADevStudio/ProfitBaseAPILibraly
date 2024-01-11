@@ -16,16 +16,12 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int SectionId { get; set; }
 
-        public FloorProfit(int number, SectionProfit section)
-        {
-            Number = number;
-            Section = section;
-        }
-
         public FloorProfit(int number, int sectionId)
         {
             Number = number;
             SectionId = sectionId;
         }
+
+        public FloorProfit(int number, SectionProfit section) : this(number, section.Id) => Section = section;
     }
 }
