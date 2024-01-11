@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -13,8 +12,7 @@ namespace ProfitBaseAPILibraly.Controllers
     {
         private ICollection<CastomStatus> CastomStatuses { get; set; }
 
-        public ApartamentController(Auth auth) : base(auth)
-        { }
+        public ApartamentController(Auth auth) : base(auth) { }
 
         public async Task<ApartamentProfit> GetApartamentById(int id)
         {
@@ -57,6 +55,8 @@ namespace ProfitBaseAPILibraly.Controllers
                 temp.Floor = floor;
                 items.Add(temp);
             }
+
+            floor.Apartaments = items;
 
             return items;
         }
@@ -110,7 +110,8 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(newStatus, $"properties/{id}/status-change").ToString()).ConfigureAwait(false);
 
-            
+            if (result == null) return false;
+
             return true;
         }
 
@@ -119,7 +120,7 @@ namespace ProfitBaseAPILibraly.Controllers
             ICollection<CastomStatus> collection = new List<CastomStatus>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
-                { "crm", $"amo" },
+                { "crm", $"amo" }
             };
 
             JArray result = await GetResultResponse(
@@ -129,7 +130,9 @@ namespace ProfitBaseAPILibraly.Controllers
                 collection.Add(new CastomStatus(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
                     Convert.ToString(item["name"], CultureInfo.CurrentCulture)));
+
             CastomStatuses = collection;
+
             return collection;
         }
 
@@ -153,6 +156,5 @@ namespace ProfitBaseAPILibraly.Controllers
                     throw new ArgumentException($"Неподдерживаемый JTokenType: {tokenType}");
             }
         }
-
     }
 }

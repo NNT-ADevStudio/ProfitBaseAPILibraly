@@ -34,7 +34,7 @@ namespace ProfitBaseAPILibraly.Classes
 
         private ApartamentProfit(int id) => Id = id;
 
-        internal ApartamentProfit(){}
+        internal ApartamentProfit() { }
 
         public ApartamentProfit(int id, int number, int floorId) : this(id)
         {
