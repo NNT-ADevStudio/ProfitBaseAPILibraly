@@ -21,6 +21,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "house/get-count-properties-on-floor").ToString()).ConfigureAwait(false);
+
             if (result == null) return null;
 
             foreach (var item in result[0]["data"])
@@ -41,6 +42,7 @@ namespace ProfitBaseAPILibraly.Controllers
                 var section = house.Sections.Find(x => x.Id == floor.SectionId);
 
                 if (section == null) continue;
+
                 floor.Section = section;
                 section.Floors.Add(floor);
             }
