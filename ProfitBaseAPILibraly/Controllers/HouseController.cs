@@ -27,6 +27,10 @@ namespace ProfitBaseAPILibraly.Controllers
                 Convert.ToInt32(result[0]["data"][0]["id"], CultureInfo.CurrentCulture),
                 Convert.ToInt32(result[0]["data"][0]["projectId"], CultureInfo.CurrentCulture),
                 Convert.ToString(result[0]["data"][0]["title"], CultureInfo.CurrentCulture));
+
+            house.MinFloor = Convert.ToInt32(result[0]["data"][0]["minFloor"], CultureInfo.CurrentCulture);
+            house.MaxFloor = Convert.ToInt32(result[0]["data"][0]["maxFloor"], CultureInfo.CurrentCulture);
+
             return house;
         }
 
@@ -37,15 +41,7 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(string.Empty, "house").ToString()).ConfigureAwait(false);
 
-            if (result == null) return items;
-
-            foreach (var item in result[0]["data"])
-                items.Add(new HouseProfit(
-                    Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
-                    Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture),
-                    Convert.ToString(item["title"], CultureInfo.CurrentCulture)));
-
-            return items;
+            return ProssesingHouse(result);
         }
 
 
@@ -62,21 +58,7 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "house").ToString()).ConfigureAwait(false);
 
-            if (result == null) return items;
-
-            foreach (var item in result[0]["data"])
-            {
-                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), project);
-                temp.Title = Convert.ToString(item["title"], CultureInfo.CurrentCulture);
-                temp.ProjectId = Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture);
-
-                items.Add(temp);
-            }
-
-            items.ForEach(x => x.Project = project);
-            project.HouseList = items;
-
-            return items;
+            return ProssesingHouse(result);
         }
 
         public async Task<List<HouseProfit>> GetHousesByProjectId(int projectId)
@@ -90,13 +72,25 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "house").ToString()).ConfigureAwait(false);
 
+            return ProssesingHouse(result);
+        }
+
+        private static List<HouseProfit> ProssesingHouse(JArray result)
+        {
+            List<HouseProfit> items = new List<HouseProfit>();
+
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
             {
-                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture), projectId);
-                temp.Title = Convert.ToString(item["title"], CultureInfo.CurrentCulture);
-                temp.ProjectId = Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture);
+                if (item == null) continue;
+
+                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
+                        Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture),
+                        Convert.ToString(item["title"], CultureInfo.CurrentCulture));
+
+                temp.MinFloor = Convert.ToInt32(item["minFloor"], CultureInfo.CurrentCulture);
+                temp.MaxFloor = Convert.ToInt32(item["maxFloor"], CultureInfo.CurrentCulture);
 
                 items.Add(temp);
             }

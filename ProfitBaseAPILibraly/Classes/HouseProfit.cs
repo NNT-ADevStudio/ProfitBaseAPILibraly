@@ -10,27 +10,20 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int ProjectId { get; set; }
 
-        public List<SectionProfit> Sections { get; set; }
+        public int MinFloor { get; set; }
+
+        public int MaxFloor { get; set; }
 
         public int Id { get; set; }
 
-        public HouseProfit(int id, ProjectProfit project)
-        {
-            Id = id;
-            Project = project;
-        }
+        public List<SectionProfit> Sections { get; set; }
 
-        public HouseProfit(int id, int projectID)
-        {
-            Id = id;
-            ProjectId = projectID;
-        }
+        private HouseProfit(int id) => Id = id;
 
-        public HouseProfit(int id, int projectID, string title) 
-        {
-            Id = id;
-            ProjectId = projectID;
-            Title = title;
-        }
+        public HouseProfit(int id, ProjectProfit project) : this(id) => Project = project;
+
+        public HouseProfit(int id, int projectID) : this(id) => ProjectId = projectID;
+
+        public HouseProfit(int id, int projectID, string title) : this(id, projectID) => Title = title;
     }
 }
