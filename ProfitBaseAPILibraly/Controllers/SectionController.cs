@@ -24,12 +24,18 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return items;
 
             foreach (var item in result[0]["data"])
-                items.Add(new SectionProfit(
-                    Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture),
-                    house,
-                    Convert.ToString(item["title"], CultureInfo.CurrentCulture)));
+            {
+                SectionProfit section = new SectionProfit(Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture),
+                        house,
+                        Convert.ToString(item["title"], CultureInfo.CurrentCulture));
+                section.CountFloor = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
 
+                items.Add(section);
+            }
+
+            items.ForEach(x => x.House = house);
             house.Sections = items;
+
             return items;
         }
     }

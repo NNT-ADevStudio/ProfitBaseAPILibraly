@@ -14,21 +14,14 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int Id { get; }
 
+        public int CountFloor { get; set; }
+
         private SectionProfit(int id) => Id = id;
 
-        public SectionProfit(int id, HouseProfit house) : this(id)
-        {
-            House = house;
-        }
+        public SectionProfit(int id, HouseProfit house) : this(id) => House = house;
 
-        public SectionProfit(int id, int houseId) : this(id)
-        {
-            HouseId = houseId;
-        }
+        public SectionProfit(int id, int houseId) : this(id) => HouseId = houseId;
 
-        public SectionProfit(int id, HouseProfit house, string title) : this(id, house)
-        {
-            Title = title;
-        }
+        public SectionProfit(int id, HouseProfit house, string title) : this(id, house) => Title = title;
     }
 }
