@@ -18,9 +18,9 @@ namespace ProfitBaseAPILibraly.Classes
 
         private SectionProfit(int id) => Id = id;
 
-        public SectionProfit(int id, HouseProfit house) : this(id) => House = house;
-
         public SectionProfit(int id, int houseId) : this(id) => HouseId = houseId;
+
+        public SectionProfit(int id, HouseProfit house) : this(id, house.Id) => House = house;
 
         public SectionProfit(int id, HouseProfit house, string title) : this(id, house) => Title = title;
     }

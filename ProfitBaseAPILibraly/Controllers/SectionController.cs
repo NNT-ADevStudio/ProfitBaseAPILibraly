@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
 {
-    internal class SectionController : MainController
+    public class SectionController : MainController
     {
         public SectionController(Auth auth) : base(auth) { }
 
