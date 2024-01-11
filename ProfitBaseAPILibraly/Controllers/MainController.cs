@@ -61,7 +61,6 @@ namespace ProfitBaseAPILibraly.Controllers
             return url.Uri;
         }
 
-
         /// <summary>
         /// Получает ответ от указанного URL и возвращает десериализованный объект JArray.
         /// </summary>
