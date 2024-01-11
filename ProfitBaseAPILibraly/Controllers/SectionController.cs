@@ -9,9 +9,7 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     internal class SectionController : MainController
     {
-        public SectionController(Auth auth) : base(auth)
-        {
-        }
+        public SectionController(Auth auth) : base(auth) { }
 
         public async Task<List<SectionProfit>> GetSectionByHouse(HouseProfit house)
         {
@@ -31,6 +29,7 @@ namespace ProfitBaseAPILibraly.Controllers
                     house,
                     Convert.ToString(item["title"], CultureInfo.CurrentCulture)));
 
+            house.Sections = items;
             return items;
         }
     }
