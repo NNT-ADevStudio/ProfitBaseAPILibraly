@@ -37,7 +37,7 @@ namespace ProfitBaseAPILibraly.Controllers
             List<ApartamentProfit> items = new List<ApartamentProfit>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
-                { "houseId", $"{((HouseProfit)floor.Section.House).Id}" },
+                { "houseId", $"{floor.Section.House.Id}" },
                 { "isArchive", $"false" },
                 { "full", $"true" },
                 { "minFloor", $"{floor.Number}" },
@@ -107,14 +107,8 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<bool> ChangeStatus(int id, string newStatus)
         {
-            Dictionary<string, string> keyValues = new Dictionary<string, string>
-            {
-                { "id", $"{id}" },
-                { "full", "true" }
-            };
-
             JArray result = await GetResultResponse(
-                CreateUrl(keyValues, $"properties/{id}/status-change").ToString()).ConfigureAwait(false);
+                CreateUrl(newStatus, $"properties/{id}/status-change").ToString()).ConfigureAwait(false);
 
             
             return true;
