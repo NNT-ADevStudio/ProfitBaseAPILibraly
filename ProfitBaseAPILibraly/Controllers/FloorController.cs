@@ -29,7 +29,20 @@ namespace ProfitBaseAPILibraly.Controllers
                        Convert.ToInt32(item["floor"], CultureInfo.CurrentCulture),
                        Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture));
                 temp.CountApartament = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
+                temp.Id = Convert.ToInt32(item["id"], CultureInfo.CurrentCulture);
+
                 items.Add(temp);
+            }
+
+            if (house.Sections == null || house.Sections.Count == 0) return items;
+
+            foreach (var floor in items)
+            {
+                var section = house.Sections.Find(x => x.Id == floor.SectionId);
+
+                if (section == null) continue;
+                floor.Section = section;
+                section.Floors.Add(floor);
             }
 
             return items;
