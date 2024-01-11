@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
 {
-    public class MainController
+    public abstract class MainController
     {
         /// <summary>
         /// Класс аутентификации
