@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
 {
-    internal class ApartamentController : MainController
+    public class ApartamentController : MainController
     {
         private ICollection<CastomStatus> CastomStatuses { get; set; }
 
@@ -25,7 +25,7 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
 
-            return await GetInfoApartament(result[0]["data"][0]).ConfigureAwait(false);
+            return await ProssesingApartament(result[0]["data"][0]).ConfigureAwait(false);
         }
 
         public async Task<List<ApartamentProfit>> GetApartamentsByFloor(FloorProfit floor)
@@ -51,7 +51,7 @@ namespace ProfitBaseAPILibraly.Controllers
             foreach (var item in result[0]["data"])
             {
                 if (item == null) continue;
-                ApartamentProfit temp = await GetInfoApartament(item).ConfigureAwait(false);
+                ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
                 temp.Floor = floor;
                 items.Add(temp);
             }
@@ -61,8 +61,7 @@ namespace ProfitBaseAPILibraly.Controllers
             return items;
         }
 
-
-        private async Task<ApartamentProfit> GetInfoApartament(JToken result)
+        private async Task<ApartamentProfit> ProssesingApartament(JToken result)
         {
             if (result == null) return null;
             JObject data = result.ToObject<JObject>();

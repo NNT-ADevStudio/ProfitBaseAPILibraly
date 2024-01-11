@@ -32,20 +32,16 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string SummerRoom { get; set; }
 
-        private ApartamentProfit(int id) => Id = id;
-
         internal ApartamentProfit() { }
 
-        public ApartamentProfit(int id, int number, int floorId) : this(id)
+        private ApartamentProfit(int id, int number)
         {
+            Id = id;
             Number = number;
-            FloorId = floorId;
         }
 
-        public ApartamentProfit(int id, int number, FloorProfit floorProfit) : this(id)
-        {
-            Number = number;
-            Floor = floorProfit;
-        }
+        public ApartamentProfit(int id, int number, int floorId) : this(id, number) => FloorId = floorId;
+
+        public ApartamentProfit(int id, int number, FloorProfit floorProfit) : this(id, number) => Floor = floorProfit;
     }
 }
