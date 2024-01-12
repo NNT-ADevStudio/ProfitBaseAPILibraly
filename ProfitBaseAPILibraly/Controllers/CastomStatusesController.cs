@@ -52,9 +52,9 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             CastomStatus castomStatus = new CastomStatus(
-                Convert.ToInt32(result[0]["data"]["customStatuses"]["id"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"]["customStatuses"]["name"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"]["customStatuses"]["baseStatus"], CultureInfo.CurrentCulture));
+                Convert.ToInt32(result[0]["data"]["customStatuses"][0]["id"], CultureInfo.CurrentCulture),
+                Convert.ToString(result[0]["data"]["customStatuses"][0]["name"], CultureInfo.CurrentCulture),
+                Convert.ToString(result[0]["data"]["customStatuses"][0]["baseStatus"], CultureInfo.CurrentCulture));
 
             return castomStatus;
         }
