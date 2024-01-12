@@ -25,7 +25,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (result == null) return null;
 
-            foreach (var item in result[0]["data"])
+            foreach (var item in result[0]["data"]["customStatuses"])
             {
                 CastomStatus castomStatus = new CastomStatus(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
@@ -52,9 +52,9 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             CastomStatus castomStatus = new CastomStatus(
-                Convert.ToInt32(result[0]["data"][0]["id"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"][0]["name"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"][0]["baseStatus"], CultureInfo.CurrentCulture));
+                Convert.ToInt32(result[0]["data"]["customStatuses"]["id"], CultureInfo.CurrentCulture),
+                Convert.ToString(result[0]["data"]["customStatuses"]["name"], CultureInfo.CurrentCulture),
+                Convert.ToString(result[0]["data"]["customStatuses"]["baseStatus"], CultureInfo.CurrentCulture));
 
             return castomStatus;
         }
