@@ -8,7 +8,7 @@
     <Company>NNT ADevStudio</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AnalysisLevel>6.0-recommended</AnalysisLevel>
-    <Version>1.1.5-beta0.1.14</Version>
+    <Version>1.1.5-beta0.1.15</Version>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <PackageReleaseNotes></PackageReleaseNotes>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

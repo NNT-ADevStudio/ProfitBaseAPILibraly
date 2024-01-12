@@ -46,6 +46,12 @@ namespace ProfitBaseAPILibraly.Controllers
             return url.Uri;
         }
 
+        /// <summary>
+        /// Создает полный URL, комбинируя базовый URL, конечную точку и параметры доступа.
+        /// </summary>
+        /// <param name="keyValues">Строка параметров, которая будет добавлена к запросу.</param>
+        /// <param name="endPoint">Путь конечной точки, добавляемый к базовому URL.</param>
+        /// <returns>Объект Uri, содержащий полный URL.</returns>
         protected Uri CreateUrl(string keyValues, string endPoint)
         {
             StringBuilder temp = new StringBuilder();
