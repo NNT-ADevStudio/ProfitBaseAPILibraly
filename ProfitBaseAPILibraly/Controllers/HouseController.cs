@@ -36,8 +36,6 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<List<HouseProfit>> GetHousesAll()
         {
-            List<HouseProfit> items = new List<HouseProfit>();
-
             JArray result = await GetResultResponse(
                 CreateUrl(string.Empty, "house").ToString()).ConfigureAwait(false);
 
@@ -49,7 +47,6 @@ namespace ProfitBaseAPILibraly.Controllers
         {
             if (project == null) return null;
 
-            List<HouseProfit> items = new List<HouseProfit>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
                 { "projectId", $"{project.Id}" }
@@ -63,7 +60,6 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<List<HouseProfit>> GetHousesByProjectId(int projectId)
         {
-            List<HouseProfit> items = new List<HouseProfit>();
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
                 { "projectId", $"{projectId}" }

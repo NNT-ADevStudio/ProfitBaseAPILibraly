@@ -36,7 +36,7 @@ namespace ProfitBaseAPILibraly.Controllers
                            Convert.ToInt32(item["floor"], CultureInfo.CurrentCulture),
                            Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture));
                     temp.CountApartament = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
-                    temp.Id = Convert.ToInt32(item["id"], CultureInfo.CurrentCulture);
+                    temp.Id = Convert.ToInt32(item["floor_id"], CultureInfo.CurrentCulture);
 
                     tempFloors.Add(temp);
                 }
