@@ -11,6 +11,11 @@ namespace ProfitBaseAPILibraly.Controllers
     {
         public SectionController(Auth auth) : base(auth) { }
 
+        /// <summary>
+        /// Получает список объектов SectionProfit по объекту HouseProfit.
+        /// </summary>
+        /// <param name="house">Объект HouseProfit.</param>
+        /// <returns>Список объектов SectionProfit.</returns>
         public async Task<List<SectionProfit>> GetSectionByHouse(HouseProfit house)
         {
             List<SectionProfit> items = new List<SectionProfit>();
