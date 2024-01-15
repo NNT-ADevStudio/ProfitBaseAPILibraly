@@ -1,9 +1,9 @@
-﻿using LivingComplexLib.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ProfitBaseAPILibraly.Classes
 {
-    public class ApartamentProfit : Apatrament
+    public class ApartamentProfit
     {
         public int Id { get; set; }
 
@@ -11,12 +11,52 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string ProfitStatus { get; set; }
 
-        public IEnumerable<CastomProperty> CustomProperties { get; set; } = new List<CastomProperty>();
+        private List<CastomProperty> _customProperties;
+        public IEnumerable<CastomProperty> CustomProperties
+        {
+            get => _customProperties ?? (_customProperties = new List<CastomProperty>());
+            set => _customProperties = value.ToList();
+        }
 
         public string BookedAt { get; set; }
 
         public string ResponsibleName { get; set; }
 
         public int RoomCount { get; set; }
+
+        public string Kod { get; set; }
+
+        public int Number { get; set; }
+
+        public double Price { get; set; }
+
+        private FloorProfit _floor;
+        public FloorProfit Floor
+        {
+            get => _floor;
+            set
+            {
+                _floor = value;
+                FloorId = value?.Id ?? 0;
+            }
+        }
+
+        public int FloorId { get; set; }
+
+        public double TotalArea { get; set; }
+
+        public string SummerRoom { get; set; }
+
+        internal ApartamentProfit() { }
+
+        private ApartamentProfit(int id, int number)
+        {
+            Id = id;
+            Number = number;
+        }
+
+        public ApartamentProfit(int id, int number, int floorId) : this(id, number) => FloorId = floorId;
+
+        public ApartamentProfit(int id, int number, FloorProfit floorProfit) : this(id, number) => Floor = floorProfit;
     }
 }

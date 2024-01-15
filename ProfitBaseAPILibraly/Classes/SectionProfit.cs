@@ -1,17 +1,32 @@
-﻿using LivingComplexLib.Models;
+﻿using System.Collections.Generic;
 
 namespace ProfitBaseAPILibraly.Classes
 {
-    public class SectionProfit : Section
+    public class SectionProfit
     {
-        public int CountFloor { get; set; }
+        public string Title { get; set; }
+
+        private List<FloorProfit> _floors;
+        public List<FloorProfit> Floors 
+        { 
+            get => _floors ?? (_floors = new List<FloorProfit>());
+            set => _floors = value;
+        }
+
+        public HouseProfit House { get; set; }
+
+        public int HouseId { get; set; }
 
         public int Id { get; }
 
-        public SectionProfit(int id, string title, HouseProfit house) : base(title, house) 
-            => Id = id;
+        public int CountFloor { get; set; }
 
-        public SectionProfit(int id, string title, int count, HouseProfit house) : this(id, title, house) 
-            => CountFloor = count;
+        private SectionProfit(int id) => Id = id;
+
+        public SectionProfit(int id, int houseId) : this(id) => HouseId = houseId;
+
+        public SectionProfit(int id, HouseProfit house) : this(id, house.Id) => House = house;
+
+        public SectionProfit(int id, HouseProfit house, string title) : this(id, house) => Title = title;
     }
 }
