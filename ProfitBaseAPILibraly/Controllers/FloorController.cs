@@ -33,7 +33,7 @@ namespace ProfitBaseAPILibraly.Controllers
                 foreach (var item in result[0]["data"])
                 {
                     FloorProfit temp = new FloorProfit(
-                           Convert.ToInt32(item["floor"], CultureInfo.CurrentCulture),
+                           Convert.ToString(item["floor"], CultureInfo.CurrentCulture),
                            Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture));
                     temp.CountApartament = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
                     temp.Id = Convert.ToInt32(item["floor_id"], CultureInfo.CurrentCulture);
