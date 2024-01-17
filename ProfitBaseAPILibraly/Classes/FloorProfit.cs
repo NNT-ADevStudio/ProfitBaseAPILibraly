@@ -6,7 +6,7 @@ namespace ProfitBaseAPILibraly.Classes
     {
         public int Id { get; set; }
 
-        public int Number { get; set; }
+        public string Number { get; set; }
 
         public int CountApartament { get; set; }
 
@@ -27,12 +27,12 @@ namespace ProfitBaseAPILibraly.Classes
 
         public int SectionId { get; set; }
 
-        public FloorProfit(int number, int sectionId)
+        public FloorProfit(string number, int sectionId)
         {
             Number = number;
             SectionId = sectionId;
         }
 
-        public FloorProfit(int number, SectionProfit section) : this(number, section.Id) => Section = section;
+        public FloorProfit(string number, SectionProfit section) : this(number, section.Id) => Section = section;
     }
 }
