@@ -26,7 +26,7 @@ namespace ProfitBaseAPILibraly.Classes
 
         public string Kod { get; set; }
 
-        public int Number { get; set; }
+        public string Number { get; set; }
 
         public double Price { get; set; }
 
@@ -49,14 +49,14 @@ namespace ProfitBaseAPILibraly.Classes
 
         internal ApartamentProfit() { }
 
-        private ApartamentProfit(int id, int number)
+        private ApartamentProfit(int id, string number)
         {
             Id = id;
             Number = number;
         }
 
-        public ApartamentProfit(int id, int number, int floorId) : this(id, number) => FloorId = floorId;
+        public ApartamentProfit(int id, string number, int floorId) : this(id, number) => FloorId = floorId;
 
-        public ApartamentProfit(int id, int number, FloorProfit floorProfit) : this(id, number) => Floor = floorProfit;
+        public ApartamentProfit(int id, string number, FloorProfit floorProfit) : this(id, number) => Floor = floorProfit;
     }
 }
