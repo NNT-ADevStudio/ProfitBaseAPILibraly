@@ -30,35 +30,42 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<List<ApartamentProfit>> GetApartamentsByFloor(FloorProfit floor)
         {
-            if (floor == null) return null;
-
-            List<ApartamentProfit> items = new List<ApartamentProfit>();
-            Dictionary<string, string> keyValues = new Dictionary<string, string>
+            try
             {
-                { "houseId", $"{floor.Section.House.Id}" },
-                { "isArchive", $"false" },
-                { "full", $"true" },
-                { "minFloor", $"{floor.Number}" },
-                { "maxFloor", $"{floor.Number}" },
-                { "section[]", $"{floor.Section.Title}" },
-            };
+                if (floor == null) return null;
 
-            JArray result = await GetResultResponse(
-                CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
+                List<ApartamentProfit> items = new List<ApartamentProfit>();
+                Dictionary<string, string> keyValues = new Dictionary<string, string>
+                {
+                    { "houseId", $"{floor.Section.House.Id}" },
+                    { "isArchive", $"false" },
+                    { "full", $"true" },
+                    { "minFloor", $"{floor.Number}" },
+                    { "maxFloor", $"{floor.Number}" },
+                    { "section[]", $"{floor.Section.Title}" },
+                };
 
-            if (result == null) return items;
+                JArray result = await GetResultResponse(
+                    CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
 
-            foreach (var item in result[0]["data"])
-            {
-                if (item == null) continue;
-                ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
-                temp.Floor = floor;
-                items.Add(temp);
+                if (result == null) return items;
+
+                foreach (var item in result[0]["data"])
+                {
+                    if (item == null) continue;
+                    ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
+                    temp.Floor = floor;
+                    items.Add(temp);
+                }
+
+                floor.Apartaments = items;
+
+                return items;
             }
-
-            floor.Apartaments = items;
-
-            return items;
+            catch (Exception ex)
+            {
+                throw new CustomException($"[GetApartamentsByFloor]\n Этаж: {floor.Id}\nСекция: {floor.SectionId}\nДом: {floor.Section.House.Id}\n\n{ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         private async Task<ApartamentProfit> ProssesingApartament(JToken result)
