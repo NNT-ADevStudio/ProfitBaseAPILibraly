@@ -94,7 +94,7 @@ namespace ProfitBaseAPILibraly.Controllers
             temp.CustomProperties = tempCastomProperty;
             temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
             temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
-            temp.Number = Convert.ToInt32(tempCastomProperty.FirstOrDefault(p => p.Name == "Номер помещения").GetValue(), CultureInfo.CurrentCulture);
+            temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Номер помещения").GetValue(), CultureInfo.CurrentCulture);
 
             if (result["bookedAt"] != null && result["bookedAt"].Type != JTokenType.Null)
                 temp.BookedAt = result["bookedAt"].ToString();
