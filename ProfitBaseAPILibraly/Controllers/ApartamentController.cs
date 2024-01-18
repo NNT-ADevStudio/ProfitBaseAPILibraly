@@ -35,27 +35,33 @@ namespace ProfitBaseAPILibraly.Controllers
                 if (floor == null) return null;
 
                 List<ApartamentProfit> items = new List<ApartamentProfit>();
-                Dictionary<string, string> keyValues = new Dictionary<string, string>
+
+                for (int i = 0; i < floor.CountApartament; i += 100)
                 {
-                    { "houseId", $"{floor.Section.House.Id}" },
-                    { "isArchive", $"false" },
-                    { "full", $"true" },
-                    { "minFloor", $"{floor.Number}" },
-                    { "maxFloor", $"{floor.Number}" },
-                    { "section[]", $"{floor.Section.Title}" },
-                };
+                    items = new List<ApartamentProfit>();
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>
+                    {
+                        { "houseId", $"{floor.Section.House.Id}" },
+                        { "isArchive", $"false" },
+                        { "full", $"true" },
+                        { "minFloor", $"{floor.Number}" },
+                        { "maxFloor", $"{floor.Number}" },
+                        { "section[]", $"{floor.Section.Title}" },
+                        { "offset", $"{i}" },
+                    };
 
-                JArray result = await GetResultResponse(
-                    CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
+                    JArray result = await GetResultResponse(
+                        CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
 
-                if (result == null) return items;
+                    if (result == null) return items;
 
-                foreach (var item in result[0]["data"])
-                {
-                    if (item == null) continue;
-                    ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
-                    temp.Floor = floor;
-                    items.Add(temp);
+                    foreach (var item in result[0]["data"])
+                    {
+                        if (item == null) continue;
+                        ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
+                        temp.Floor = floor;
+                        items.Add(temp);
+                    }
                 }
 
                 floor.Apartaments = items;
@@ -64,13 +70,14 @@ namespace ProfitBaseAPILibraly.Controllers
             }
             catch (Exception ex)
             {
-                throw new CustomException($"[GetApartamentsByFloor]\n Этаж: {floor.Id}\nСекция: {floor.SectionId}\nДом: {floor.Section.House.Id}\n\n{ex.Message}\n{ex.StackTrace}");
+                throw new CustomException($"[GetApartamentsByFloor]\nЭтаж: {floor.Id}\nСекция: {floor.SectionId}\nДом: {floor.Section.House.Id}\n\n{ex.Message}\n{ex.StackTrace}");
             }
         }
 
         private async Task<ApartamentProfit> ProssesingApartament(JToken result)
         {
             if (result == null) return null;
+
             JObject data = result.ToObject<JObject>();
             List<CastomProperty> tempCastomProperty = new List<CastomProperty>();
             ApartamentProfit temp = new ApartamentProfit();
@@ -88,6 +95,7 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result["status"] != null && result["status"].Type != JTokenType.Null)
                 temp.ProfitStatus = Convert.ToString(result["status"], CultureInfo.CurrentCulture);
 
+            temp.PropertyType = Convert.ToString(result["propertyType"], CultureInfo.CurrentCulture);
             temp.TotalArea = Convert.ToDouble(result["area"]["area_total"], CultureInfo.CurrentCulture);
             temp.Price = Convert.ToDouble(result["price"]["value"], CultureInfo.CurrentCulture);
             temp.RoomCount = Convert.ToInt32(result["rooms_amount"], CultureInfo.CurrentCulture);
