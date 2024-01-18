@@ -7,6 +7,8 @@ namespace ProfitBaseAPILibraly.Classes
     {
         public int Id { get; set; }
 
+        public string PropertyType { get; set; }
+
         public CastomStatus Status { get; set; }
 
         public string ProfitStatus { get; set; }
