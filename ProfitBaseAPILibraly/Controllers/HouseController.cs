@@ -37,7 +37,7 @@ namespace ProfitBaseAPILibraly.Controllers
         public async Task<List<HouseProfit>> GetHousesAll()
         {
             JArray result = await GetResultResponse(
-                CreateUrl(string.Empty, "house").ToString()).ConfigureAwait(false);
+                CreateUrl(null, "house").ToString()).ConfigureAwait(false);
 
             return ProssesingHouse(result);
         }

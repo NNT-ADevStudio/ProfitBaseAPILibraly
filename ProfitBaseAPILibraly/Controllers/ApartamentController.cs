@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
@@ -119,14 +120,15 @@ namespace ProfitBaseAPILibraly.Controllers
             return temp;
         }
 
-        public async Task<bool> ChangeStatus(int id, string newStatus)
+        public async Task<bool> Change<T>(int id, T keyValuesBody = default(T), Dictionary<string, string> keyValuesUrl = null)
         {
-            JArray result = await GetResultResponse(
-                CreateUrl(newStatus, $"properties/{id}/status-change").ToString()).ConfigureAwait(false);
+            string url = CreateUrl(keyValuesUrl, $"properties/{id}").ToString();
 
-            if (result == null) return false;
+            string json = JsonConvert.SerializeObject(keyValuesBody);
 
-            return true;
+            var result = await PatchAsync(url, json).ConfigureAwait(false);
+
+            return result;
         }
 
         public async Task<ICollection<CastomStatus>> GetCastomStatus()

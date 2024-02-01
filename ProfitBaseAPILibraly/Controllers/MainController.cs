@@ -1,5 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -47,27 +48,6 @@ namespace ProfitBaseAPILibraly.Controllers
         }
 
         /// <summary>
-        /// Создает полный URL, комбинируя базовый URL, конечную точку и параметры доступа.
-        /// </summary>
-        /// <param name="keyValues">Строка параметров, которая будет добавлена к запросу.</param>
-        /// <param name="endPoint">Путь конечной точки, добавляемый к базовому URL.</param>
-        /// <returns>Объект Uri, содержащий полный URL.</returns>
-        protected Uri CreateUrl(string keyValues, string endPoint)
-        {
-            StringBuilder temp = new StringBuilder();
-
-            if (keyValues != null || keyValues != string.Empty)
-                temp.Append($"{keyValues}");
-
-            var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
-            {
-                Query = $"access_token={Auth.AccessToken}" + temp.ToString()
-            };
-
-            return url.Uri;
-        }
-
-        /// <summary>
         /// Получает ответ от указанного URL и возвращает десериализованный объект JArray.
         /// </summary>
         /// <param name="url">URL для отправки GET-запроса.</param>
@@ -81,7 +61,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <exception cref="Exception">
         /// Выбрасывается при возникновении любой другой ошибки во время выполнения функции.
         /// </exception>
-        internal static async Task<JArray> GetResultResponse(string url)
+        protected static async Task<JArray> GetResultResponse(string url)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -110,6 +90,36 @@ namespace ProfitBaseAPILibraly.Controllers
                         Debug.WriteLine(ex + "\n" + jsonString);
                         throw;
                     }
+                }
+            }
+        }
+
+        protected static async Task<bool> PatchAsync(string path, string jsonBody)
+        {
+            using (var client = new HttpClient())
+            {
+                var method = "PATCH";
+                var httpVerb = new HttpMethod(method);
+                var httpRequestMessage =
+                    new HttpRequestMessage(httpVerb, path)
+                    {
+                        Content = new StringContent(jsonBody, Encoding.UTF8, "application/json")
+                    };
+                try
+                {
+                    var response = await client.SendAsync(httpRequestMessage);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var responseCode = response.StatusCode;
+                        var responseJson = await response.Content.ReadAsStringAsync();
+                        return false;
+                    }
+
+                    return true;
+                }
+                catch (Exception exception)
+                {
+                    throw new CustomException($"Error patching {jsonBody} in {path}\n{exception.Message}");
                 }
             }
         }
