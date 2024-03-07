@@ -11,12 +11,14 @@ namespace ProfitBaseAPILibraly.Controllers
     {
         public CastomStatusesController(Auth auth) : base(auth) { }
 
-        public async Task<List<CastomStatus>> GetAll(string crm)
+        public async Task<List<CastomStatus>> GetAll(string crm, int? id = null)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>
             {
                 { "crm", $"{crm}" }
             };
+
+            if(id != null) keyValues.Add("id", $"{id}");
 
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "custom-status/list").ToString()).ConfigureAwait(false);
@@ -25,38 +27,30 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (result == null) return null;
 
+            if (result[0]["data"]["customStatuses"] == null) return null;
+
+            //var temp = result[0]["data"]["customStatuses"];
+
+            //var options = new JsonSerializerOptions
+            //{
+            //    PropertyNameCaseInsensitive = true
+            //};
+
+            //collection = JsonSerializer.Deserialize<List<CastomStatus>>(temp.ToString(), options);
+
             foreach (var item in result[0]["data"]["customStatuses"])
             {
                 CastomStatus castomStatus = new CastomStatus(
                     Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
                     Convert.ToString(item["name"], CultureInfo.CurrentCulture),
-                    Convert.ToString(item["baseStatus"], CultureInfo.CurrentCulture));
+                    Convert.ToString(item["baseStatus"], CultureInfo.CurrentCulture),
+                    Convert.ToBoolean(item["isProtected"], CultureInfo.CurrentCulture),
+                    Convert.ToString(item["alias"], CultureInfo.CurrentCulture));
 
                 collection.Add(castomStatus);
             }
 
             return collection;
-        }
-
-        public async Task<CastomStatus> GetById(string crm, int id)
-        {
-            Dictionary<string, string> keyValues = new Dictionary<string, string>
-            {
-                { "crm", $"{crm}" },
-                { "id", $"{id}" }
-            };
-
-            JArray result = await GetResultResponse(
-                CreateUrl(keyValues, "custom-status/list").ToString()).ConfigureAwait(false);
-
-            if (result == null) return null;
-
-            CastomStatus castomStatus = new CastomStatus(
-                Convert.ToInt32(result[0]["data"]["customStatuses"][0]["id"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"]["customStatuses"][0]["name"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"]["customStatuses"][0]["baseStatus"], CultureInfo.CurrentCulture));
-
-            return castomStatus;
         }
     }
 }
