@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -24,15 +23,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (result == null) return null;
 
-            foreach (var item in result)
-            {
-                var temp = new ProjectProfit(
-                    Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
-                    Auth.Subdomain);
-                temp.Locality = Convert.ToString(item["locality"], CultureInfo.CurrentCulture);
-                temp.Title = Convert.ToString(item["title"], CultureInfo.CurrentCulture);
-                projects.Add(temp);
-            }
+            projects = result.Select(item => item.ToObject<ProjectProfit>()).ToList();
 
             return projects;
         }

@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,9 +10,14 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class ApartamentController : MainController
     {
+        private CastomStatusesController CastomStatusesController { get; set; }
+
         private ICollection<CastomStatus> CastomStatuses { get; set; }
 
-        public ApartamentController(Auth auth) : base(auth) { }
+        public ApartamentController(Auth auth) : base(auth)
+        {
+            CastomStatusesController = new CastomStatusesController(auth);
+        }
 
         public async Task<ApartamentProfit> GetApartamentById(int id)
         {
@@ -71,7 +75,13 @@ namespace ProfitBaseAPILibraly.Controllers
             }
             catch (Exception ex)
             {
-                throw new CustomException($"[GetApartamentsByFloor]\nЭтаж: {floor.Id}\nСекция: {floor.SectionId}\nДом: {floor.Section.House.Id}\n\n{ex.Message}\n{ex.StackTrace}");
+                throw new CustomException(
+                    $"[GetApartamentsByFloor]" +
+                    $"\nЭтаж: {floor.Id}" +
+                    $"\nСекция: {floor.SectionId}" +
+                    $"\nДом: {floor.Section.House.Id}" +
+                    $"\n\n{ex.Message}" +
+                    $"\n{ex.StackTrace}");
             }
         }
 
@@ -80,42 +90,21 @@ namespace ProfitBaseAPILibraly.Controllers
             if (result == null) return null;
 
             JObject data = result.ToObject<JObject>();
-            List<CastomProperty> tempCastomProperty = new List<CastomProperty>();
+
+            if (data == null) return null;
+
             ApartamentProfit temp = new ApartamentProfit();
 
-            foreach (var field in data["custom_fields"])
-            {
-                tempCastomProperty.Add(
-                new CastomProperty(
-                    Convert.ToString(field["id"], CultureInfo.CurrentCulture),
-                    Convert.ToString(field["name"], CultureInfo.CurrentCulture),
-                    Convert.ToString(field["value"], CultureInfo.CurrentCulture),
-                    GetVariableType(field["value"].Type)));
-            }
+            temp = data.ToObject<ApartamentProfit>();
 
-            if (result["status"] != null && result["status"].Type != JTokenType.Null)
-                temp.ProfitStatus = Convert.ToString(result["status"], CultureInfo.CurrentCulture);
+            if (temp == null) return null;
 
-            temp.PropertyType = Convert.ToString(result["propertyType"], CultureInfo.CurrentCulture);
-            temp.TotalArea = Convert.ToDouble(result["area"]["area_total"], CultureInfo.CurrentCulture);
-            temp.Price = Convert.ToDouble(result["price"]["value"], CultureInfo.CurrentCulture);
-            temp.RoomCount = Convert.ToInt32(result["rooms_amount"], CultureInfo.CurrentCulture);
-            temp.CustomProperties = tempCastomProperty;
-            temp.Id = Convert.ToInt32(result["id"], CultureInfo.CurrentCulture);
-            temp.Kod = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Код планировки").GetValue(), CultureInfo.CurrentCulture);
-            temp.Number = Convert.ToString(tempCastomProperty.FirstOrDefault(p => p.Name == "Номер помещения").GetValue(), CultureInfo.CurrentCulture);
-
-            if (result["bookedAt"] != null && result["bookedAt"].Type != JTokenType.Null)
-                temp.BookedAt = result["bookedAt"].ToString();
-
-            if (result["responsibleName"] != null && result["responsibleName"].Type != JTokenType.Null)
-                temp.ResponsibleName = result["responsibleName"].ToString();
+            temp.SummerRoom = (string)temp.CustomProperties.FirstOrDefault(p => p.Name == "Площадь лоджии, м2").GetValue();
 
             if (CastomStatuses == null)
                 await GetCastomStatus().ConfigureAwait(false);
 
-            temp.Status = CastomStatuses.FirstOrDefault(
-                p => p.Id == Convert.ToInt32(result["customStatusId"], CultureInfo.CurrentCulture));
+            temp.Status = CastomStatuses.FirstOrDefault(p => p.Id == temp.CustomStatusId);
 
             return temp;
         }
@@ -133,44 +122,11 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<ICollection<CastomStatus>> GetCastomStatus()
         {
-            ICollection<CastomStatus> collection = new List<CastomStatus>();
-            Dictionary<string, string> keyValues = new Dictionary<string, string>
-            {
-                { "crm", $"amo" }
-            };
-
-            JArray result = await GetResultResponse(
-                CreateUrl(keyValues, "custom-status/list").ToString()).ConfigureAwait(false);
-
-            foreach (var item in result[0]["data"]["customStatuses"])
-                collection.Add(new CastomStatus(
-                    Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
-                    Convert.ToString(item["name"], CultureInfo.CurrentCulture)));
+            ICollection<CastomStatus> collection = await CastomStatusesController.Get("crm");
 
             CastomStatuses = collection;
 
             return collection;
-        }
-
-        private static Type GetVariableType(JTokenType tokenType)
-        {
-            switch (tokenType)
-            {
-                case JTokenType.String:
-                    return typeof(string);
-                case JTokenType.Integer:
-                    return typeof(int);
-                case JTokenType.Float:
-                    return typeof(float);
-                case JTokenType.Boolean:
-                    return typeof(bool);
-                case JTokenType.Null:
-                    return null;
-                case JTokenType.Array:
-                    return typeof(Array);
-                default:
-                    throw new ArgumentException($"Неподдерживаемый JTokenType: {tokenType}");
-            }
         }
     }
 }
