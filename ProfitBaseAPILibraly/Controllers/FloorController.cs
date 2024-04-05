@@ -3,6 +3,7 @@ using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -30,16 +31,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
                 if (result == null) continue;
 
-                foreach (var item in result[0]["data"])
-                {
-                    FloorProfit temp = new FloorProfit(
-                           Convert.ToString(item["floor"], CultureInfo.CurrentCulture),
-                           Convert.ToInt32(item["section_id"], CultureInfo.CurrentCulture));
-                    temp.CountApartament = Convert.ToInt32(item["count"], CultureInfo.CurrentCulture);
-                    temp.Id = Convert.ToInt32(item["floor_id"], CultureInfo.CurrentCulture);
-
-                    tempFloors.Add(temp);
-                }
+                tempFloors = result[0]["data"].Select(item => item.ToObject<FloorProfit>()).ToList();
 
                 if (house.Sections == null || house.Sections.Count == 0) continue;
 

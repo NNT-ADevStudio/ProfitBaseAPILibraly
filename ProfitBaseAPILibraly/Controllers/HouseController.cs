@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -23,13 +22,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (result == null) return null;
 
-            HouseProfit house = new HouseProfit(
-                Convert.ToInt32(result[0]["data"][0]["id"], CultureInfo.CurrentCulture),
-                Convert.ToInt32(result[0]["data"][0]["projectId"], CultureInfo.CurrentCulture),
-                Convert.ToString(result[0]["data"][0]["title"], CultureInfo.CurrentCulture));
-
-            house.MinFloor = Convert.ToInt32(result[0]["data"][0]["minFloor"], CultureInfo.CurrentCulture);
-            house.MaxFloor = Convert.ToInt32(result[0]["data"][0]["maxFloor"], CultureInfo.CurrentCulture);
+            HouseProfit house = result[0]["data"][0].ToObject<HouseProfit>();
 
             return house;
         }
@@ -73,23 +66,9 @@ namespace ProfitBaseAPILibraly.Controllers
 
         private static List<HouseProfit> ProssesingHouse(JArray result)
         {
-            List<HouseProfit> items = new List<HouseProfit>();
+            if (result == null) return null;
 
-            if (result == null) return items;
-
-            foreach (var item in result[0]["data"])
-            {
-                if (item == null) continue;
-
-                HouseProfit temp = new HouseProfit(Convert.ToInt32(item["id"], CultureInfo.CurrentCulture),
-                        Convert.ToInt32(item["projectId"], CultureInfo.CurrentCulture),
-                        Convert.ToString(item["title"], CultureInfo.CurrentCulture));
-
-                temp.MinFloor = Convert.ToInt32(item["minFloor"], CultureInfo.CurrentCulture);
-                temp.MaxFloor = Convert.ToInt32(item["maxFloor"], CultureInfo.CurrentCulture);
-
-                items.Add(temp);
-            }
+            List<HouseProfit>  items = result[0]["data"].Select(item => item.ToObject<HouseProfit>()).ToList();
 
             return items;
         }

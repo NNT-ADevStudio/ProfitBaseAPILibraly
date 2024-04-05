@@ -1,18 +1,27 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 
-namespace ProfitBaseAPILibraly.Classes
+namespace ProfitBaseAPILibraly.Classes.SubClasses
 {
     public class CastomProperty
     {
-        private string value;
+        private object value;
 
-        public string Id { get; }
+        [JsonProperty("value")]
+        public object Value { get => GetValue(); set => this.value = value; }
 
-        public string Name { get; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
 
-        public Type Type { get; private set; } = typeof(string);
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonIgnore]
+        public Type Type { get; set; } = typeof(string);
+
+        internal CastomProperty() { }
 
         public CastomProperty(string id, string name)
         {
@@ -20,16 +29,15 @@ namespace ProfitBaseAPILibraly.Classes
             Name = name;
         }
 
-        public CastomProperty(string id, string name, string value) : this(id, name) => this.value = value;
+        public CastomProperty(string id, string name, object value) : this(id, name) => Value = value;
 
-        public CastomProperty(string id, string name, string value, Type type) : this(id, name, value) => Type = type;
+        public CastomProperty(string id, string name, object value, Type type) : this(id, name, value) => Type = type;
 
         public object GetValue()
         {
             try
             {
                 if (value == null) return null;
-                if (string.IsNullOrEmpty(value)) return null;
                 if (Type == null) return null;
 
                 return Convert.ChangeType(value, Type, CultureInfo.CurrentCulture);
@@ -53,7 +61,7 @@ namespace ProfitBaseAPILibraly.Classes
 
         public void SetValue(string value, Type type)
         {
-            this.value = value;
+            Value = value;
             Type = type;
         }
     }

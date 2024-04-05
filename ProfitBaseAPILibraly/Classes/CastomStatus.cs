@@ -1,16 +1,28 @@
-﻿namespace ProfitBaseAPILibraly.Classes
+﻿using Newtonsoft.Json;
+
+namespace ProfitBaseAPILibraly.Classes
 {
     public class CastomStatus
     {
+        [JsonProperty("id")]
         public int Id { get; }
 
+        [JsonProperty("name")]
         public string Name { get; }
 
+        [JsonProperty("baseStatus")]
         public string BaseStatus { get; set; }
 
+        [JsonProperty("isProtected")]
         public bool IsProtected { get; set; }
 
+        [JsonProperty("alias")]
         public string Alias { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        internal CastomStatus() { }
 
         public CastomStatus(int id, string name)
         {
