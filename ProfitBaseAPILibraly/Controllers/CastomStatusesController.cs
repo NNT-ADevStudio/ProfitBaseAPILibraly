@@ -27,6 +27,8 @@ namespace ProfitBaseAPILibraly.Controllers
 
             var temp = result[0]["data"]["customStatuses"];
 
+            var er = temp[0];
+
             List<CastomStatus> collection = temp.ToObject<List<CastomStatus>>();
 
             return collection;
