@@ -32,7 +32,7 @@ namespace ProfitBaseAPILibraly.Classes
         }
 
         [JsonProperty("positionOnFloor")]
-        public int PositionOnFloor { get; set; }
+        public int? PositionOnFloor { get; set; }
         
         [JsonProperty("bookedAt")]
         public string BookedAt { get; set; } = null;
