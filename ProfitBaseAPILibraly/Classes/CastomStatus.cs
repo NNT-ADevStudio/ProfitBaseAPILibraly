@@ -5,10 +5,10 @@ namespace ProfitBaseAPILibraly.Classes
     public class CastomStatus
     {
         [JsonProperty("id")]
-        public int Id { get; }
+        public int Id { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; }
+        public string Name { get; set; }
 
         [JsonProperty("baseStatus")]
         public string BaseStatus { get; set; }

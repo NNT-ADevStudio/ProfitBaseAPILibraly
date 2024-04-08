@@ -24,7 +24,7 @@ namespace ProfitBaseAPILibraly.Classes
         public int HouseId { get; set; }
 
         [JsonProperty("section_id")]
-        public int Id { get; }
+        public int Id { get; set; }
 
         [JsonProperty("count")]
         public int CountFloor { get; set; }
