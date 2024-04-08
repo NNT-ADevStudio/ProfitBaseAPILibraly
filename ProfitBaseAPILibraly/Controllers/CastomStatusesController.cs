@@ -25,9 +25,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (result[0]["data"]["customStatuses"] == null) return null;
 
-            var temp = result[0]["data"]["customStatuses"];
-
-            List<CastomStatus> collection = temp.ToObject<List<CastomStatus>>();
+            List<CastomStatus> collection = result[0]["data"]["customStatuses"].ToObject<List<CastomStatus>>();
 
             return collection;
         }

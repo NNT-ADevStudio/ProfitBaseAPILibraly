@@ -2,6 +2,7 @@
 using ProfitBaseAPILibraly.Classes;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,19 +32,19 @@ namespace ProfitBaseAPILibraly.Controllers
 
                 if (result == null) continue;
 
-                tempFloors = result[0]["data"].Select(item => item.ToObject<FloorProfit>()).ToList();
+                tempFloors = result[0]["data"].ToObject<List<FloorProfit>>();
 
                 if (house.Sections == null || house.Sections.Count == 0) continue;
 
-                foreach (var floor in tempFloors)
+                tempFloors.ForEach(x =>
                 {
-                    var section = house.Sections.Find(x => x.Id == floor.SectionId);
+                    var section = house.Sections.Find(y => y.Id == x.SectionId);
 
-                    if (section == null) continue;
+                    if (section == null) return;
 
-                    floor.Section = section;
-                    section.Floors.Add(floor);
-                }
+                    x.Section = section;
+                    section.Floors.Add(x);
+                });
 
                 items.AddRange(tempFloors);
             }
