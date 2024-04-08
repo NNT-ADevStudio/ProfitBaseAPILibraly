@@ -77,9 +77,6 @@ namespace ProfitBaseAPILibraly.Classes
         [JsonIgnore]
         public int FloorId { get; set; }
 
-        [JsonIgnore]
-        public string SummerRoom { get; set; }
-
         internal ApartamentProfit() { }
 
         private ApartamentProfit(int id, string number)
