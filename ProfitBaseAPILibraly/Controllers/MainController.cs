@@ -6,6 +6,7 @@ using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -41,7 +42,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (keyValues != null)
                 foreach (KeyValuePair<string, string> item in keyValues)
-                    temp.AppendFormat( , "&{0}={1}", item.Key, item.Value);
+                    temp.AppendFormat(CultureInfo.CurrentCulture, "&{0}={1}", item.Key, item.Value);
 
             var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
             {
