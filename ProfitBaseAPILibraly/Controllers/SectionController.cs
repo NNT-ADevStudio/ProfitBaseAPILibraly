@@ -27,10 +27,28 @@ namespace ProfitBaseAPILibraly.Controllers
                 CreateUrl(keyValues, "house/get-count-floors").ToString()).ConfigureAwait(false);
             if (result == null) return null;
 
-            List<SectionProfit> items = result[0]["data"].Select(item => item.ToObject<SectionProfit>()).ToList();
+            List<SectionProfit> items = result[0]["data"].ToObject<List<SectionProfit>>();
 
-            items.ForEach(x => x.House = house);
+            items.ForEach(x => { x.House = house; x.HouseId = house.Id; });
             house.Sections = items;
+
+            return items;
+        }
+
+        public async Task<List<SectionProfit>> GetSectionByHouse(int houseId)
+        {
+            Dictionary<string, string> keyValues = new Dictionary<string, string>
+            {
+                { "houseId", $"{houseId}" }
+            };
+
+            JArray result = await GetResultResponse(
+                CreateUrl(keyValues, "house/get-count-floors").ToString()).ConfigureAwait(false);
+            if (result == null) return null;
+
+            List<SectionProfit> items = result[0]["data"].ToObject<List<SectionProfit>>();
+
+            items.ForEach(x => { x.HouseId = houseId; });
 
             return items;
         }

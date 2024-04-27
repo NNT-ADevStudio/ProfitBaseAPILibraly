@@ -35,6 +35,8 @@ namespace ProfitBaseAPILibraly.Classes
         [JsonProperty("underground")]
         public int Underground { get; set; }
 
+        internal SectionProfit() { }
+
         private SectionProfit(int id) => Id = id;
 
         public SectionProfit(int id, int houseId) : this(id) => HouseId = houseId;
