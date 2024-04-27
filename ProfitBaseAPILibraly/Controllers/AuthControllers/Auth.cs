@@ -20,7 +20,7 @@ namespace ProfitBaseAPILibraly.Controllers.AuthControllers
         public string Subdomain { get; set; }
 
         private string _accessToken;
-        public string AccessToken => _accessToken ?? string.Empty;
+        public string AccessToken => _accessToken ?? ( _accessToken = string.Empty);
 
         /// <summary>
         /// Создает новый экземпляр класса Auth.
@@ -33,7 +33,6 @@ namespace ProfitBaseAPILibraly.Controllers.AuthControllers
             BaseUrl = new Uri("https://" + subdomain + ".profitbase.ru/api/v4/json/");
             Subdomain = subdomain;
         }
-
 
         public async Task<bool> RefreshAccessToken()
         {
