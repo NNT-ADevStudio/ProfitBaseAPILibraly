@@ -1,11 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
+using ProfitBaseAPILibraly.Controllers.AuthControllers;
+using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -15,13 +19,13 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <summary>
         /// Класс аутентификации
         /// </summary>
-        public Auth Auth { get; }
+        public IAuth Auth { get; }
 
         /// <summary>
         /// Создает новый экземпляр класса ProfitBaseAPI
         /// </summary>
         /// <param name="auth">Класс аутентификации</param>
-        public MainController(Auth auth) => Auth = auth;
+        public MainController(IAuth auth) => Auth = auth;
 
         /// <summary>
         /// Создает URL с query-параметрами из словаря и заданного endpoint.
@@ -37,11 +41,11 @@ namespace ProfitBaseAPILibraly.Controllers
 
             if (keyValues != null)
                 foreach (KeyValuePair<string, string> item in keyValues)
-                    temp.Append($"&{item.Key}={item.Value}");
+                    temp.AppendFormat( , "&{0}={1}", item.Key, item.Value);
 
             var url = new UriBuilder($"{Auth.BaseUrl}{endPoint}")
             {
-                Query = $"access_token={Auth.AccessToken}" + temp.ToString()
+                Query = $"access_token={Auth.AccessToken}{temp}"
             };
 
             return url.Uri;
@@ -88,7 +92,7 @@ namespace ProfitBaseAPILibraly.Controllers
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex + "\n" + jsonString);
-                        throw;
+                        throw new CustomException($"Error patching {jsonString} in {url}\n{ex.Message}");
                     }
                 }
             }
@@ -100,18 +104,16 @@ namespace ProfitBaseAPILibraly.Controllers
             {
                 var method = "PATCH";
                 var httpVerb = new HttpMethod(method);
-                var httpRequestMessage =
-                    new HttpRequestMessage(httpVerb, path)
-                    {
-                        Content = new StringContent(jsonBody, Encoding.UTF8, "application/json")
-                    };
+                var httpRequestMessage = new HttpRequestMessage(httpVerb, path)
+                {
+                    Content = new StringContent(jsonBody, Encoding.UTF8, "application/json")
+                };
+
                 try
                 {
                     var response = await client.SendAsync(httpRequestMessage);
                     if (!response.IsSuccessStatusCode)
                     {
-                        var responseCode = response.StatusCode;
-                        var responseJson = await response.Content.ReadAsStringAsync();
                         return false;
                     }
 

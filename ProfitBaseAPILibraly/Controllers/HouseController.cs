@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
+using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class HouseController : MainController
     {
-        public HouseController(Auth auth) : base(auth) { }
+        public HouseController(IAuth auth) : base(auth) { }
 
         public async Task<HouseProfit> GetHousesById(int id)
         {

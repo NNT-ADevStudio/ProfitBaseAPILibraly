@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
-using ProfitBaseAPILibraly.Classes.SubClasses;
+using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
         private ICollection<CastomStatus> CastomStatuses { get; set; }
 
-        public ApartamentController(Auth auth) : base(auth)
+        public ApartamentController(IAuth auth) : base(auth)
         {
             CastomStatusesController = new CastomStatusesController(auth);
         }

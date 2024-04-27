@@ -14,7 +14,7 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <AssemblyVersion>1.2.32</AssemblyVersion>
+    <AssemblyVersion>1.2.118</AssemblyVersion>
     <FileVersion>1.2024.2404.99</FileVersion>
   </PropertyGroup>
 

@@ -58,6 +58,18 @@ namespace ProfitBaseAPILibraly.Controllers
         }
 
         /// <summary>
+        /// Создает новый экземпляр класса Auth.
+        /// </summary>
+        /// <param name="apiKey">Ключ API.</param>
+        /// <param name="subdomain">Поддомен ProfitBase.</param>
+        public Auth(string apiKey, string subdomain, string path)
+        {
+            ApiKey = apiKey;
+            BaseUrl = new Uri("https://" + subdomain + ".profitbase.ru/api/v4/json/");
+            Subdomain = subdomain;
+        }
+
+        /// <summary>
         /// Обновляет токен доступа.
         /// </summary>
         /// <returns>Возвращает true, если обновление токена прошло успешно, иначе false.</returns>
