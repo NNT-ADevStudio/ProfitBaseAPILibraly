@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
+using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class SectionController : MainController
     {
-        public SectionController(Auth auth) : base(auth) { }
+        public SectionController(IAuth auth) : base(auth) { }
 
         /// <summary>
         /// Получает список объектов SectionProfit по объекту HouseProfit.

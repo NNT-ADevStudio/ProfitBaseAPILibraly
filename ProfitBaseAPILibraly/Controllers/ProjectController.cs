@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
+using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace ProfitBaseAPILibraly.Controllers
 {
     public class ProjectController : MainController
     {
-        public ProjectController(Auth auth) : base(auth) { }
+        public ProjectController(IAuth auth) : base(auth) { }
 
         public async Task<List<ProjectProfit>> GetProjectAll(bool isArchive = false)
         {
