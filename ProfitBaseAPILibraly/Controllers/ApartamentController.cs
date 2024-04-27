@@ -31,7 +31,15 @@ namespace ProfitBaseAPILibraly.Controllers
             JArray result = await GetResultResponse(
                 CreateUrl(keyValues, "property").ToString()).ConfigureAwait(false);
 
-            return await ProssesingApartament(result[0]["data"][0]).ConfigureAwait(false);
+            var temp = result[0]["data"][0].ToObject<ApartamentProfit>();
+
+            if (CastomStatuses == null)
+                await GetCastomStatus().ConfigureAwait(false);
+
+
+            temp.Status = CastomStatuses.FirstOrDefault(p => p.Id == temp.CustomStatusId);
+
+            return temp;
         }
 
         public async Task<List<ApartamentProfit>> GetApartamentsByFloor(FloorProfit floor)
@@ -61,13 +69,17 @@ namespace ProfitBaseAPILibraly.Controllers
 
                     if (result == null) return items;
 
-                    foreach (var item in result[0]["data"])
+                    items = result[0]["data"].ToObject<List<ApartamentProfit>>();
+
+                    if (CastomStatuses == null)
+                        await GetCastomStatus().ConfigureAwait(false);
+
+                    items.ForEach(x =>
                     {
-                        if (item == null) continue;
-                        ApartamentProfit temp = await ProssesingApartament(item).ConfigureAwait(false);
-                        temp.Floor = floor;
-                        items.Add(temp);
-                    }
+                        x.Floor = floor;
+                        x.FloorId = floor.Id;
+                        x.Status = CastomStatuses.FirstOrDefault(p => p.Id == x.CustomStatusId);
+                    });
                 }
 
                 floor.Apartaments = items;
@@ -86,30 +98,6 @@ namespace ProfitBaseAPILibraly.Controllers
             }
         }
 
-        private async Task<ApartamentProfit> ProssesingApartament(JToken result)
-        {
-            if (result == null) return null;
-
-            JObject data = result.ToObject<JObject>();
-
-            if (data == null) return null;
-
-            ApartamentProfit temp = new ApartamentProfit();
-
-            temp = data.ToObject<ApartamentProfit>();
-
-            if (temp == null) return null;
-
-            temp.SummerRoom = (string)temp.CustomProperties.FirstOrDefault(p => p.Name == "Площадь лоджии, м2").GetValue();
-
-            if (CastomStatuses == null)
-                await GetCastomStatus().ConfigureAwait(false);
-
-            temp.Status = CastomStatuses.FirstOrDefault(p => p.Id == temp.CustomStatusId);
-
-            return temp;
-        }
-
         public async Task<bool> Change<T>(int id, T keyValuesBody = default(T), Dictionary<string, string> keyValuesUrl = null)
         {
             string url = CreateUrl(keyValuesUrl, $"properties/{id}").ToString();
@@ -123,7 +111,7 @@ namespace ProfitBaseAPILibraly.Controllers
 
         public async Task<ICollection<CastomStatus>> GetCastomStatus()
         {
-            ICollection<CastomStatus> collection = await CastomStatusesController.Get("crm");
+            ICollection<CastomStatus> collection = await CastomStatusesController.Get("amo");
 
             CastomStatuses = collection;
 

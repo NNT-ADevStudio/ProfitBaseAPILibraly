@@ -2,7 +2,6 @@
 using ProfitBaseAPILibraly.Classes;
 using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
@@ -69,7 +68,7 @@ namespace ProfitBaseAPILibraly.Controllers
         {
             if (result == null) return null;
 
-            List<HouseProfit>  items = result[0]["data"].Select(item => item.ToObject<HouseProfit>()).ToList();
+            List<HouseProfit> items = result[0]["data"].ToObject<List<HouseProfit>>();
 
             return items;
         }

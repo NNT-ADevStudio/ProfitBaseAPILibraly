@@ -32,7 +32,7 @@ namespace ProfitBaseAPILibraly.Classes
         }
 
         [JsonProperty("positionOnFloor")]
-        public int PositionOnFloor { get; set; }
+        public int? PositionOnFloor { get; set; }
         
         [JsonProperty("bookedAt")]
         public string BookedAt { get; set; } = null;
@@ -76,9 +76,6 @@ namespace ProfitBaseAPILibraly.Classes
 
         [JsonIgnore]
         public int FloorId { get; set; }
-
-        [JsonIgnore]
-        public string SummerRoom { get; set; }
 
         internal ApartamentProfit() { }
 
