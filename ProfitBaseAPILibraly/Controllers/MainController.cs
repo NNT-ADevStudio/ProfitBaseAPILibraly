@@ -1,16 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
-using ProfitBaseAPILibraly.Controllers.AuthControllers;
 using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers

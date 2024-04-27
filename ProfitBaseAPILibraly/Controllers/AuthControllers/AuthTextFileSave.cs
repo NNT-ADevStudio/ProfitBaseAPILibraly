@@ -15,7 +15,12 @@ namespace ProfitBaseAPILibraly.Controllers
         /// <summary>
         /// Путь к папке AppData.
         /// </summary>
-        private string AppDataPath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string _appDataPath;
+        private string AppDataPath
+        {
+            get { return _appDataPath ?? (_appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)); }
+            set { _appDataPath = string.IsNullOrWhiteSpace(value) || string.IsNullOrEmpty(value) ? null : value; }
+        }
 
         /// <summary>
         /// Ключ API.
@@ -62,12 +67,7 @@ namespace ProfitBaseAPILibraly.Controllers
         /// </summary>
         /// <param name="apiKey">Ключ API.</param>
         /// <param name="subdomain">Поддомен ProfitBase.</param>
-        public Auth(string apiKey, string subdomain, string path)
-        {
-            ApiKey = apiKey;
-            BaseUrl = new Uri("https://" + subdomain + ".profitbase.ru/api/v4/json/");
-            Subdomain = subdomain;
-        }
+        public Auth(string apiKey, string subdomain, string path) : this(apiKey, subdomain) => AppDataPath = path;
 
         /// <summary>
         /// Обновляет токен доступа.
