@@ -2,7 +2,6 @@
 using ProfitBaseAPILibraly.Classes;
 using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfitBaseAPILibraly.Controllers
