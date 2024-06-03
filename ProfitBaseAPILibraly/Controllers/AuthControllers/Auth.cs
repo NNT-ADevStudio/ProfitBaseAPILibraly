@@ -19,7 +19,7 @@ namespace ProfitBaseAPILibraly.Controllers.AuthControllers
         public string Subdomain { get; set; }
 
         private string _accessToken;
-        public string AccessToken => _accessToken ?? ( _accessToken = string.Empty);
+        public string AccessToken => _accessToken ?? (_accessToken = string.Empty);
 
         /// <summary>
         /// Создает новый экземпляр класса Auth.
@@ -43,11 +43,12 @@ namespace ProfitBaseAPILibraly.Controllers.AuthControllers
                 stringBuilder.Append($"\"pb_api_key\": \"{ApiKey}\"");
                 stringBuilder.Append("}}");
 
+                var data = new StringContent(stringBuilder.ToString(), null, "application/json");
                 var response = await httpClient.PostAsync(
-                    $"{BaseUrl}authentication", null)
+                    $"{BaseUrl}authentication", data)
                     .ConfigureAwait(false);
 
-                if (!response.IsSuccessStatusCode) 
+                if (!response.IsSuccessStatusCode)
                 {
                     return false;
                 }
