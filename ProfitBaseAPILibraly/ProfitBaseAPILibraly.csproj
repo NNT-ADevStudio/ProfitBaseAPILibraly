@@ -8,14 +8,14 @@
     <Company>NNT ADevStudio</Company>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <AnalysisLevel>6.0-recommended</AnalysisLevel>
-    <Version>1.2.4-beta-33</Version>
+    <Version>1.2.4-beta-34</Version>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <PackageReleaseNotes></PackageReleaseNotes>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <AssemblyVersion>1.2.118</AssemblyVersion>
-    <FileVersion>1.2024.2404.99</FileVersion>
+    <FileVersion>1.2024.118.99</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

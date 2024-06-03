@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using ProfitBaseAPILibraly.Classes;
-using ProfitBaseAPILibraly.Controllers.AuthControllers;
 using ProfitBaseAPILibraly.Controllers.AuthControllers.Interfeses;
 using System.Collections.Generic;
 using System.Threading.Tasks;

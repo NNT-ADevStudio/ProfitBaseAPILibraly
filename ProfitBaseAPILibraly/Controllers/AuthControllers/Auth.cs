@@ -12,7 +12,6 @@ namespace ProfitBaseAPILibraly.Controllers.AuthControllers
     /// </summary>
     public class Auth : IAuth
     {
-
         public string ApiKey { get; }
 
         public Uri BaseUrl { get; }
