@@ -11,19 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write # permission for the github token
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '3.1.x' # No change it
-          source-url: https://nuget.pkg.github.com/NNT-ADevStudio/index.json
+          dotnet-version: '3.1.x'
+          
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build the project
+        run: dotnet build --configuration Release --no-restore
+        
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+        
+      - name: Pack NuGet Package
+        run: dotnet pack --configuration Release --no-build --output ./nupkg
+        
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push ./nupkg/*.nupkg --source "https://nuget.pkg.github.com/NNT-ADevStudio/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: Build project
-        run: dotnet build --configuration Release
-      - name: Create the package
-        run: dotnet pack --configuration Release --output bin/Release
-      - name: Publish the package to GPR
-        run: dotnet nuget push bin/Release/*.nupkg --skip-duplicate
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
